@@ -1,37 +1,32 @@
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import '@radix-ui/themes/styles.css';
 import { Theme } from '@radix-ui/themes';
-import Header from "../components/Header/header";
-import SideBar from "../components/SideMenu/sidebar";
-import DashBoardLayout from '../components/layout/layout';
-import Login from "./login";
+import { SessionProvider } from "next-auth/react";
+import { auth } from "@/auth";
+
+export const metadata = {
+  title: 'Inventory',
+  description: 'Check the sales data',
+}
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: "Inventory",
-  description: "Check the analytics of sales",
-};
-
-export default function RootLayout({
+export default async function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: {
+  children: React.ReactNode
+}) {
+  const session = await auth();
   return (
-    <html lang="en">
-      <body className={`w-[100vw] h-[100vh] ${inter.className}`}>
-        <Theme appearance="dark">
-          <Header/>
-          <SideBar/>
-          {/* <Login/> */}
-          <DashBoardLayout>
+      <html lang="en">
+        <body className={`w-[100vw] h-[100vh] ${inter.className}`} suppressHydrationWarning>
+          <Theme appearance="dark">
+          <SessionProvider session={session}>
             {children}
-          </DashBoardLayout>
-        </Theme>
-      </body>
-    </html>
-  );
+          </SessionProvider>
+          </Theme>
+        </body>
+      </html>
+  )
 }

@@ -34,8 +34,5 @@ export const register = async (values:z.infer<typeof registerSchema>)=>{
         }
     })
 
-    console.log("created");
-    
-
     return {success:"user created"}
 }

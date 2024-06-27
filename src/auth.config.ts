@@ -5,6 +5,11 @@ import { loginSchema } from "./schemas";
 import { getUserByEmail } from "./data/users";
 
 export default {
+
+    pages:{
+        signIn:'/',
+        signOut:'/'
+    },
     providers:[
         Credentials({
             async authorize(credentials) {
