@@ -40,31 +40,31 @@ export default function AddProduct(){
             <form onSubmit={form.handleSubmit(handleSubmitProduct)} className="w-[50%] p-3">
                 <Box className='p-2'>
                     <Text>Product Id</Text>
-                    <TextField.Root {...form.register("id")}></TextField.Root>
+                    <TextField.Root required {...form.register("id")}></TextField.Root>
                 </Box>
                 <Box className='p-2'>
                     <Text>Product Name</Text>
-                    <TextField.Root {...form.register("name")}></TextField.Root>
+                    <TextField.Root required {...form.register("name")}></TextField.Root>
                 </Box>
                 <Box className='p-2'>
                     <Text>Product Category</Text>
-                    <TextField.Root {...form.register("category")}></TextField.Root>
+                    <TextField.Root required {...form.register("category")}></TextField.Root>
                 </Box>
                 <Box className='p-2'>
                     <Text>Total Units</Text>
-                    <TextField.Root {...form.register('units')}></TextField.Root>
+                    <TextField.Root required {...form.register('units')}></TextField.Root>
                 </Box>
                 <Box className='p-2'>
                     <Text>Cost Price</Text>
-                    <TextField.Root {...form.register('costprice')}></TextField.Root>
+                    <TextField.Root required {...form.register('costprice')}></TextField.Root>
                 </Box>
                 <Box className='p-2'>
                     <Text>Margin</Text>
-                    <TextField.Root {...form.register('margin')}></TextField.Root>
+                    <TextField.Root required {...form.register('margin')}></TextField.Root>
                 </Box>
                 <Box className='p-2'>
                     <Text>Selling Price</Text>
-                    <TextField.Root {...form.register('sellingprice')}></TextField.Root>
+                    <TextField.Root required {...form.register('sellingprice')}></TextField.Root>
                 </Box>
                 <Box className="flex justify-end p-2">
                     <Button type="submit" color="gold">Add Product</Button>
