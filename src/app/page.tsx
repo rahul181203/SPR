@@ -1,17 +1,27 @@
 "use client"
-import { Box, Button, Flex, Heading, Text, TextField } from "@radix-ui/themes";
+import { Box, Button, Flex, Heading, Progress, Text, TextField } from "@radix-ui/themes";
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { loginSchema } from "@/schemas/index";
 import { Login } from "@/actions/login";
-import {useTransition} from "react"
+import {useEffect, useTransition} from "react"
 import { useForm } from "react-hook-form";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function Home(){
   
   const [isPending,startTransition] = useTransition();
+
+  const router = useRouter()
+  const {data:session} = useSession();
+
+  useEffect(()=>{
+    if(session){
+      router.replace('/dashboard/data');
+    }
+  },[])
 
   const form1 = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -29,10 +39,20 @@ export default function Home(){
     }) 
   }
 
-  const {data:session} = useSession();
   if(session){
-    console.log(session);
+    return (
+      <>
+        <Box className="h-[100vh] w-[100vw] flex justify-center items-center">
+          <Flex direction={'column'}>
+            <Progress/>
+            <Heading as="h4">Redirecting to Dashboard ...</Heading>
+          </Flex>
+        </Box>
+      </>
+    )
   }
+
+  
 
   return (
     <>
