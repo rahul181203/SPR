@@ -1,17 +1,37 @@
-"use client"
-
+// "use client"
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons"
-import { Heading, Table, TextField } from "@radix-ui/themes"
+import { Box, Button, Flex, Heading, Table, TextField } from "@radix-ui/themes"
+import Link from "next/link"
+import { getAllProducts } from '../../../actions/products';
+import { Suspense, useEffect, useState, useTransition } from "react";
+import Loading from "../loading";
+import SearchBar from '../../../components/searchbar';
 
-export default function Products(){
+interface ProductData{
+    id: String
+    name: String
+    category: String
+    total_units: String
+    cost_price: String
+    margin :String
+    selling_price :String
+    units_sold: String | null
+}
+
+export default async function Products({
+    searchParams
+}:{searchParams:{[key: string]:string | string[] | undefined }}){
+
+    const search = typeof searchParams.q === 'string' ? searchParams.q : undefined
+
+    const data = await getAllProducts(search!);
     return(
         <>
+        <Flex justify={'between'} align={'center'}>
         <Heading size={'7'} className="mb-3">Products List</Heading>
-            <TextField.Root placeholder="search by id" className="m-4 p-2">
-                <TextField.Slot>
-                    <MagnifyingGlassIcon height="16" width="16" />
-                </TextField.Slot>
-            </TextField.Root>
+        <Link href={'/dashboard/products/addproduct'}><Button>Add Product</Button></Link>
+        </Flex>
+            <SearchBar/>
             <Table.Root>
                 <Table.Header>
                     <Table.Row>
@@ -26,6 +46,27 @@ export default function Products(){
                         <Table.ColumnHeaderCell>Units Sold</Table.ColumnHeaderCell>
                     </Table.Row>
                 </Table.Header>
+                <Table.Body key={0}>
+                    {
+                        data.map((i,idx)=>{
+                            return (
+                            <>
+                                <Table.Row key={idx+1}>
+                                <Table.RowHeaderCell >{idx+1}</Table.RowHeaderCell>
+                                <Table.Cell>{i.id}</Table.Cell>
+                                <Table.Cell>{i.name}</Table.Cell>
+                                <Table.Cell>{i.category}</Table.Cell>
+                                <Table.Cell>{i.total_units}</Table.Cell>
+                                <Table.Cell>{i.cost_price}</Table.Cell>
+                                <Table.Cell>{i.margin}</Table.Cell>
+                                <Table.Cell>{i.selling_price}</Table.Cell>
+                                <Table.Cell>{i.units_sold && '0'}</Table.Cell>
+                                </Table.Row>
+                            </>
+                        )
+                        })
+                    }
+                </Table.Body>
             </Table.Root>
         </>
     )

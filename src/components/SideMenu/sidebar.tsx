@@ -20,7 +20,6 @@ export default function SideBar(){
                     }}>
                     <button className="flex items-center gap-2" > <ExitIcon width={'30'} height={'30'} className=" p-1 text-white"/> Sign Out</button>
                 </form>
-                
             </Flex>
         </>
     )

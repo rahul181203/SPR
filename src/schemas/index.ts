@@ -13,3 +13,13 @@ export const registerSchema = z.object({
     mobile:z.string(),
     password:z.string()
 })
+
+export const addProductSchema = z.object({
+    id:z.string(),
+    name:z.string(),
+    category:z.string(),
+    units:z.string(),
+    costprice:z.string(),
+    margin:z.string(),
+    sellingprice:z.string(),
+})

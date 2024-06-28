@@ -65,7 +65,7 @@ export default function Home(){
             <TextField.Root placeholder="email" type="email" autoComplete="email" {...form1.register("email")}></TextField.Root>
             <Text as="label">Password: </Text>
             <TextField.Root placeholder="password" type="password" {...form1.register("password")}></TextField.Root>
-            <Link as={'a'} href={'/forgotpass'} className=" text-sm underline text-blue-400">Forgot Password?</Link>
+            <Link href={'/forgotpass'} className=" text-sm underline text-blue-400">Forgot Password?</Link>
             <Button color="gold" onClick={form1.handleSubmit(handleSubmitLogin)}> Login</Button>
             {/* </form> */}
           </Flex>
