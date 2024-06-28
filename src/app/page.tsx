@@ -21,7 +21,7 @@ export default function Home(){
     if(session){
       router.replace('/dashboard/data');
     }
-  },[])
+  },[session])
 
   const form1 = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -43,7 +43,7 @@ export default function Home(){
     return (
       <>
         <Box className="h-[100vh] w-[100vw] flex justify-center items-center">
-          <Flex direction={'column'}>
+          <Flex direction={'column'} gap={'3'}>
             <Progress/>
             <Heading as="h4">Redirecting to Dashboard ...</Heading>
           </Flex>

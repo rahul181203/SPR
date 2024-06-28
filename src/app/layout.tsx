@@ -20,7 +20,7 @@ export default async function RootLayout({
   const session = await auth();
   return (
       <html lang="en">
-        <body className={`w-[100vw] h-[100vh] ${inter.className}`} suppressHydrationWarning>
+        <body className={`w-[100vw] h-[100vh] overflow-hidden ${inter.className}`} suppressHydrationWarning>
           <Theme appearance="dark">
           <SessionProvider session={session}>
             {children}
