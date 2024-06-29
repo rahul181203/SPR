@@ -5,6 +5,8 @@ import { Theme } from '@radix-ui/themes';
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
 import Providers from "@/components/provider";
+import { Suspense } from "react";
+import Loading from "./loading";
 
 export const metadata = {
   title: 'Inventory',
@@ -25,7 +27,9 @@ export default async function RootLayout({
           <Theme appearance="dark">
           <SessionProvider session={session}>
             <Providers>
-              {children}
+              <Suspense fallback={<Loading/>}>
+                {children}
+              </Suspense>
             </Providers>
           </SessionProvider>
           </Theme>

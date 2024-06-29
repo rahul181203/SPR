@@ -20,7 +20,7 @@ export default function Clock(){
     },[setClock])
     return(
         <>
-            <Text>{timeString}</Text>
+            <Text suppressHydrationWarning>{timeString}</Text>
         </>
     )
 

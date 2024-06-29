@@ -12,7 +12,7 @@ const Header=async()=>{
                     <Text>Inventory</Text>
                 </Box>
                 <Box >
-                    <Clock/>
+                    <Clock />
                     <Text m={'3'}>{session?.user?.email}</Text>
                     <Avatar src="/" fallback={'a'} size={'4'} radius="full" />
                 </Box>

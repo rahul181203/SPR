@@ -11,19 +11,18 @@ export const AddServiceAction=async(values:z.infer<typeof serviceSchema>)=>{
         return {"error":"Invalid fields provided"};
     }
 
-    const { id, name, charge } = validateResponse.data;
+    const { name, charge } = validateResponse.data;
 
     const aldreadyFound = await db.service.findUnique({
         where:{
-            id
+            name
         }
     })
     if(aldreadyFound){
-        return {"error":"Product id exists"}
+        return {"error":"Product exists"}
     }
     try{
         await db.service.create({data:{
-            id:id,
             name:name,
             charge:charge,
         }})
@@ -46,7 +45,7 @@ export const getAllServices=async(search:string)=>{
     return services;
 }
 
-export const deleteService=async(id:string)=>{
+export const deleteService=async(id:number)=>{
     try{
         await db.service.delete({where:{
             id

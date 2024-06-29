@@ -15,7 +15,6 @@ export const registerSchema = z.object({
 })
 
 export const addProductSchema = z.object({
-    id:z.string(),
     name:z.string(),
     category:z.string(),
     units:z.string(),
@@ -25,7 +24,6 @@ export const addProductSchema = z.object({
 })
 
 export const serviceSchema = z.object({
-    id:z.string(),
     name:z.string(),
     charge:z.string()
 })

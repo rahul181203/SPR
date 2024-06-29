@@ -2,8 +2,11 @@ import { atom } from 'jotai';
 
 export const clockAtom = atom({
   light: false,
-  lastUpdate: 0,
+  lastUpdate: Date.now(),
 });
 
-export const productsList = atom([])
-export const servicesList = atom([])
+
+export const productsList = atom<any[]>([])
+productsList.debugLabel = "product list"
+export const servicesList = atom<any[]>([])
+servicesList.debugLabel = "services list"

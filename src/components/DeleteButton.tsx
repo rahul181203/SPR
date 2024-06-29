@@ -6,13 +6,13 @@ export default function DeleteButton({
   id,
   method,
 }: {
-  id: string;
+  id: number;
   method: any;
 }) {
   const [click, setClick] = useState(false);
   const [isPending, startTransition] = useTransition();
 
-  const removeProduct = (id: string) => {
+  const removeProduct = (id: number) => {
     setClick(true);
     startTransition(() => {
       method(id).then(() => {

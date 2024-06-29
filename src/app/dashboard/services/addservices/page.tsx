@@ -18,7 +18,6 @@ export default function AddService(){
     const form = useForm<z.infer<typeof serviceSchema>>({
         resolver:zodResolver(serviceSchema),
         defaultValues:{
-            id:"",
             name:"",
             charge:""
         }
@@ -43,10 +42,6 @@ export default function AddService(){
             <Heading ml={'3'} mb={'3'}>Add Service</Heading>
             <Box className="flex justify-center items-center">
             <form onSubmit={form.handleSubmit(handleSubmitProduct)} className="w-[50%] p-3">
-                <Box className='p-2'>
-                    <Text>Service Id</Text>
-                    <TextField.Root required {...form.register("id")}></TextField.Root>
-                </Box>
                 <Box className='p-2'>
                     <Text>Service Name</Text>
                     <TextField.Root required {...form.register("name")}></TextField.Root>

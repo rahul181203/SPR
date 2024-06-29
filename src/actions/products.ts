@@ -11,20 +11,19 @@ export const AddProductAction=async(values:z.infer<typeof addProductSchema>)=>{
         return {"error":"Invalid fields provided"};
     }
 
-    const { id, name, category, units, costprice, sellingprice, margin } = validateResponse.data;
+    const { name, category, units, costprice, sellingprice, margin } = validateResponse.data;
 
     const aldreadyFound = await db.product.findUnique({
         where:{
-            id
+            name
         }
     })
 
     if(aldreadyFound){
-        return {"error":"Product id exists"}
+        return {"error":"Product exists"}
     }
     try{
         await db.product.create({data:{
-            id:id,
             name:name,
             category:category,
             cost_price:costprice,
@@ -51,7 +50,7 @@ export const getAllProducts=async(search:string)=>{
     return products;
 }
 
-export const deleteProduct=async(id:string)=>{
+export const deleteProduct=async(id:number)=>{
     try{
         await db.product.delete({where:{
             id
@@ -60,4 +59,17 @@ export const deleteProduct=async(id:string)=>{
         return {"error":String(e)}
     }
     redirect('/dashboard/products',RedirectType.replace)
+}
+
+export const getProductById=async(id:number)=>{
+    try{
+        const product = db.product.findUnique({
+            where:{
+                id
+            }
+        })
+        return product;
+    }catch(error){
+        return {"msg":"not found"}
+    }
 }

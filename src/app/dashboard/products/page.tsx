@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import Loading from "../loading";
 import { Suspense } from "react";
 import DeleteButton from "@/components/DeleteButton";
+import AddCart from "@/components/AddCart";
 
 
 export default async function Products({
@@ -36,6 +37,7 @@ export default async function Products({
                         <Table.ColumnHeaderCell>Selling Price</Table.ColumnHeaderCell>
                         <Table.ColumnHeaderCell>Units Sold</Table.ColumnHeaderCell>
                         <Table.ColumnHeaderCell>Delete</Table.ColumnHeaderCell>
+                        <Table.ColumnHeaderCell>Add to List</Table.ColumnHeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Suspense fallback={<Loading/>}>
@@ -55,6 +57,7 @@ export default async function Products({
                                 <Table.Cell>{"$"+i.selling_price}</Table.Cell>
                                 <Table.Cell>{i.units_sold && '0'}</Table.Cell>
                                 <Table.Cell><DeleteButton id={i.id} method={deleteProduct} /></Table.Cell>
+                                <Table.Cell><AddCart id={i.id} /></Table.Cell>
                                 </Table.Row>
                             </>
                         )

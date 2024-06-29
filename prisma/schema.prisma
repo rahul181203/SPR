@@ -44,8 +44,8 @@ model Operators{
 }
 
 model Product{
-  id String @id
-  name String
+  id Int @id @unique @default(autoincrement())
+  name String @unique
   category String
   total_units String
   cost_price String
@@ -55,7 +55,7 @@ model Product{
 }
 
 model Service{
-  id String @id
-  name String
+  id Int @id @unique @default(autoincrement())
+  name String @unique
   charge String
 }

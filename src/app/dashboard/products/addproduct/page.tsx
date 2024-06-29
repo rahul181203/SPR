@@ -17,7 +17,6 @@ export default function AddProduct(){
     const form = useForm<z.infer<typeof addProductSchema>>({
         resolver:zodResolver(addProductSchema),
         defaultValues:{
-            id:"",
             name:"",
             category:"",
             costprice:"",
@@ -46,10 +45,6 @@ export default function AddProduct(){
             <Heading ml={'3'} mb={'3'}>Add Product</Heading>
             <Box className="flex justify-center items-center">
             <form onSubmit={form.handleSubmit(handleSubmitProduct)} className="w-[50%] p-3">
-                <Box className='p-2'>
-                    <Text>Product Id</Text>
-                    <TextField.Root required {...form.register("id")}></TextField.Root>
-                </Box>
                 <Box className='p-2'>
                     <Text>Product Name</Text>
                     <TextField.Root required {...form.register("name")}></TextField.Root>
