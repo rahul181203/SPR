@@ -1,5 +1,6 @@
 import { auth } from "@/auth";
 import { Avatar, Box, Text } from "@radix-ui/themes";
+import Clock from "../clock";
 
 const Header=async()=>{
     const session = await auth();
@@ -11,6 +12,7 @@ const Header=async()=>{
                     <Text>Inventory</Text>
                 </Box>
                 <Box >
+                    <Clock/>
                     <Text m={'3'}>{session?.user?.email}</Text>
                     <Avatar src="/" fallback={'a'} size={'4'} radius="full" />
                 </Box>

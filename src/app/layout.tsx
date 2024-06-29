@@ -4,6 +4,7 @@ import '@radix-ui/themes/styles.css';
 import { Theme } from '@radix-ui/themes';
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
+import Providers from "@/components/provider";
 
 export const metadata = {
   title: 'Inventory',
@@ -23,7 +24,9 @@ export default async function RootLayout({
         <body className={`w-[100vw] h-[100vh] overflow-hidden ${inter.className}`} suppressHydrationWarning>
           <Theme appearance="dark">
           <SessionProvider session={session}>
-            {children}
+            <Providers>
+              {children}
+            </Providers>
           </SessionProvider>
           </Theme>
         </body>

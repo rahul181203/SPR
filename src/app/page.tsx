@@ -9,13 +9,10 @@ import {useEffect, useState, useTransition} from "react"
 import { useForm } from "react-hook-form";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import Loading from "./loading";
 
 export default function Home(){
-  
   const [isPending,startTransition] = useTransition();
   const [loading,setLoading] = useState(false)
-  const [value,setValue] = useState(0);
 
   const router = useRouter()
   const {data:session} = useSession();
