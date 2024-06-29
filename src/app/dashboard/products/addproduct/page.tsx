@@ -1,15 +1,17 @@
 "use client"
 import { AddProductAction } from "@/actions/products";
+import Loading from "@/app/loading";
 import { addProductSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Button, Heading, Text, TextField } from "@radix-ui/themes";
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod"
 
 export default function AddProduct(){
 
     const [isPending,startTransition] = useTransition();
+    const [loading, setLoading] = useState(false);
 
 
     const form = useForm<z.infer<typeof addProductSchema>>({
@@ -26,11 +28,17 @@ export default function AddProduct(){
     })
 
     const handleSubmitProduct=(values:z.infer<typeof addProductSchema>)=>{
+        setLoading(true)
         startTransition(()=>{
-            AddProductAction(values).then((data)=>{
-                console.log(data?.error);
+            AddProductAction(values).then((e)=>{
+                (e?.error !== undefined) ? window.alert(e?.error):window.alert('added successfully');
+                setLoading(false);
             })
         })
+    }
+
+    if(loading){
+        return <Loading/>
     }
 
     return(

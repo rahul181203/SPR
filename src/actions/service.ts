@@ -2,7 +2,7 @@
 import { serviceSchema } from '../schemas/index';
 import * as z from "zod"
 import { db } from "@/lib/prisma";
-import { permanentRedirect} from 'next/navigation';
+import { redirect, RedirectType} from 'next/navigation';
 
 export const AddServiceAction=async(values:z.infer<typeof serviceSchema>)=>{
     const validateResponse = serviceSchema.safeParse(values);
@@ -18,7 +18,6 @@ export const AddServiceAction=async(values:z.infer<typeof serviceSchema>)=>{
             id
         }
     })
-
     if(aldreadyFound){
         return {"error":"Product id exists"}
     }
@@ -27,12 +26,11 @@ export const AddServiceAction=async(values:z.infer<typeof serviceSchema>)=>{
             id:id,
             name:name,
             charge:charge,
-        }}).then(()=>{
-            permanentRedirect('/dashboard/services')
-        })
+        }})
     }catch(error){
         return {"error":String(error)}
     }
+    redirect('/dashboard/services')
 }
 
 export const getAllServices=async(search:string)=>{
@@ -46,4 +44,15 @@ export const getAllServices=async(search:string)=>{
         }
     })
     return services;
+}
+
+export const deleteService=async(id:string)=>{
+    try{
+        await db.service.delete({where:{
+            id
+        }})
+    }catch(e){
+        return {"error":String(e)}
+    }
+    redirect('/dashboard/services',RedirectType.replace)
 }

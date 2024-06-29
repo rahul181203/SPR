@@ -1,16 +1,18 @@
 "use client"
 import { AddProductAction } from "@/actions/products";
 import { AddServiceAction } from "@/actions/service";
+import Loading from "@/app/loading";
 import { addProductSchema, serviceSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Button, Heading, Text, TextField } from "@radix-ui/themes";
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod"
 
 export default function AddService(){
 
     const [isPending,startTransition] = useTransition();
+    const [loading,setLoading] = useState(false);
 
 
     const form = useForm<z.infer<typeof serviceSchema>>({
@@ -23,11 +25,17 @@ export default function AddService(){
     })
 
     const handleSubmitProduct=(values:z.infer<typeof serviceSchema>)=>{
+        setLoading(true);
         startTransition(()=>{
             AddServiceAction(values).then((e)=>{
-                console.log(e?.error);
+                (e?.error !== undefined) ? window.alert(e?.error):window.alert('added successfully');
+                setLoading(false);
             })
         })
+    }
+
+    if(loading){
+        return <Loading/>
     }
 
     return(

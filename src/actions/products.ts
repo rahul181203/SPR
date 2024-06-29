@@ -2,7 +2,7 @@
 import { addProductSchema } from '../schemas/index';
 import * as z from "zod"
 import { db } from "@/lib/prisma";
-import { permanentRedirect, redirect } from 'next/navigation';
+import { permanentRedirect, redirect, RedirectType } from 'next/navigation';
 
 export const AddProductAction=async(values:z.infer<typeof addProductSchema>)=>{
     const validateResponse = addProductSchema.safeParse(values);
@@ -31,12 +31,11 @@ export const AddProductAction=async(values:z.infer<typeof addProductSchema>)=>{
             selling_price:sellingprice,
             margin:margin,
             total_units:units
-        }}).then(()=>{
-            permanentRedirect('/dashboard/products')
-        })
+        }})
     }catch(error){
         return {"error":String(error)}
     }
+    redirect('/dashboard/products')
 }
 
 export const getAllProducts=async(search:string)=>{
@@ -50,4 +49,15 @@ export const getAllProducts=async(search:string)=>{
         }
     })
     return products;
+}
+
+export const deleteProduct=async(id:string)=>{
+    try{
+        await db.product.delete({where:{
+            id
+        }})
+    }catch(e){
+        return {"error":String(e)}
+    }
+    redirect('/dashboard/products',RedirectType.replace)
 }

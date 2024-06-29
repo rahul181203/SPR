@@ -1,28 +1,21 @@
-// "use client"
-import { MagnifyingGlassIcon } from "@radix-ui/react-icons"
 import { Box, Button, Flex, Heading, Table, TextField } from "@radix-ui/themes"
 import Link from "next/link"
-import { getAllProducts } from '../../../actions/products';
+import { deleteProduct, getAllProducts } from '../../../actions/products';
 import SearchBar from '../../../components/searchbar';
+import { redirect } from "next/navigation";
+import Loading from "../loading";
+import { Suspense } from "react";
+import DeleteButton from "@/components/DeleteButton";
 
-interface ProductData{
-    id: String
-    name: String
-    category: String
-    total_units: String
-    cost_price: String
-    margin :String
-    selling_price :String
-    units_sold: String | null
-}
 
 export default async function Products({
     searchParams
 }:{searchParams:{[key: string]:string | string[] | undefined }}){
 
     const search = typeof searchParams.q === 'string' ? searchParams.q : undefined
-
+    
     const data = await getAllProducts(search!);
+
     return(
         <>
         <Flex justify={'between'} align={'center'}>
@@ -42,8 +35,10 @@ export default async function Products({
                         <Table.ColumnHeaderCell>Margin</Table.ColumnHeaderCell>
                         <Table.ColumnHeaderCell>Selling Price</Table.ColumnHeaderCell>
                         <Table.ColumnHeaderCell>Units Sold</Table.ColumnHeaderCell>
+                        <Table.ColumnHeaderCell>Delete</Table.ColumnHeaderCell>
                     </Table.Row>
                 </Table.Header>
+                <Suspense fallback={<Loading/>}>
                 <Table.Body key={0}>
                     {
                         data.map((i,idx)=>{
@@ -59,12 +54,14 @@ export default async function Products({
                                 <Table.Cell>{"$"+i.margin}</Table.Cell>
                                 <Table.Cell>{"$"+i.selling_price}</Table.Cell>
                                 <Table.Cell>{i.units_sold && '0'}</Table.Cell>
+                                <Table.Cell><DeleteButton id={i.id} method={deleteProduct} /></Table.Cell>
                                 </Table.Row>
                             </>
                         )
                         })
                     }
                 </Table.Body>
+                </Suspense>
             </Table.Root>
         </>
     )
