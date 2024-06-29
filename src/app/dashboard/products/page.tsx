@@ -3,8 +3,6 @@ import { MagnifyingGlassIcon } from "@radix-ui/react-icons"
 import { Box, Button, Flex, Heading, Table, TextField } from "@radix-ui/themes"
 import Link from "next/link"
 import { getAllProducts } from '../../../actions/products';
-import { Suspense, useEffect, useState, useTransition } from "react";
-import Loading from "../loading";
 import SearchBar from '../../../components/searchbar';
 
 interface ProductData{
@@ -57,9 +55,9 @@ export default async function Products({
                                 <Table.Cell>{i.name}</Table.Cell>
                                 <Table.Cell>{i.category}</Table.Cell>
                                 <Table.Cell>{i.total_units}</Table.Cell>
-                                <Table.Cell>{i.cost_price}</Table.Cell>
-                                <Table.Cell>{i.margin}</Table.Cell>
-                                <Table.Cell>{i.selling_price}</Table.Cell>
+                                <Table.Cell>{"$"+i.cost_price}</Table.Cell>
+                                <Table.Cell>{"$"+i.margin}</Table.Cell>
+                                <Table.Cell>{"$"+i.selling_price}</Table.Cell>
                                 <Table.Cell>{i.units_sold && '0'}</Table.Cell>
                                 </Table.Row>
                             </>

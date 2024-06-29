@@ -12,7 +12,6 @@ export const AddProductAction=async(values:z.infer<typeof addProductSchema>)=>{
     }
 
     const { id, name, category, units, costprice, sellingprice, margin } = validateResponse.data;
-    console.log(id);
 
     const aldreadyFound = await db.product.findUnique({
         where:{
@@ -41,7 +40,6 @@ export const AddProductAction=async(values:z.infer<typeof addProductSchema>)=>{
 }
 
 export const getAllProducts=async(search:string)=>{
-    console.log(search);
     
     const products = await db.product.findMany({
         where:{

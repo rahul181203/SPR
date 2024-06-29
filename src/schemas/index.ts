@@ -23,3 +23,9 @@ export const addProductSchema = z.object({
     margin:z.string(),
     sellingprice:z.string(),
 })
+
+export const serviceSchema = z.object({
+    id:z.string(),
+    name:z.string(),
+    charge:z.string()
+})

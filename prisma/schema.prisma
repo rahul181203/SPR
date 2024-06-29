@@ -53,3 +53,9 @@ model Product{
   selling_price String
   units_sold String?
 }
+
+model Service{
+  id String @id
+  name String
+  charge String
+}
