@@ -8,7 +8,7 @@ export default function Providers({children}:{children:React.ReactNode}){
     return (
         <>
             <Provider>
-                <DevTools position="bottom-right" theme="dark"/>
+                {/* <DevTools position="bottom-right" theme="dark"/> */}
                 {children}
             </Provider>
         </>
