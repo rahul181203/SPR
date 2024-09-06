@@ -3,6 +3,19 @@ import { addProductSchema } from '../schemas/index';
 import * as z from "zod"
 import { db } from "@/lib/prisma";
 import { permanentRedirect, redirect, RedirectType } from 'next/navigation';
+import { CartItem } from '@/interfaces';
+
+// const items:CartItem[] = [
+//     {
+//         product_id:2,
+//     },
+//     {
+//         product_id:3
+//     },
+//     {
+//         service_id:3
+//     }
+// ]
 
 export const AddProductAction=async(values:z.infer<typeof addProductSchema>)=>{
     const validateResponse = addProductSchema.safeParse(values);
@@ -56,20 +69,18 @@ export const deleteProduct=async(id:number)=>{
             id
         }})
     }catch(e){
+        console.log(e);
         return {"error":String(e)}
     }
     redirect('/dashboard/products',RedirectType.replace)
 }
 
 export const getProductById=async(id:number)=>{
-    try{
-        const product = db.product.findUnique({
-            where:{
-                id
-            }
-        })
-        return product;
-    }catch(error){
-        return {"msg":"not found"}
-    }
+    const product = db.product.findUnique({
+        where:{
+            id
+        }
+    })
+    return product;
 }
+

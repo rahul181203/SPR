@@ -57,7 +57,7 @@ export default async function Products({
                                 <Table.Cell>{"$"+i.selling_price}</Table.Cell>
                                 <Table.Cell>{i.units_sold && '0'}</Table.Cell>
                                 <Table.Cell><DeleteButton id={i.id} method={deleteProduct} /></Table.Cell>
-                                <Table.Cell><AddCart id={i.id} /></Table.Cell>
+                                <Table.Cell><AddCart id={i.id} type={"product"} /></Table.Cell>
                                 </Table.Row>
                             </>
                         )

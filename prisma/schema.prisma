@@ -5,57 +5,81 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["jsonProtocol"]
 }
 
 datasource db {
-  provider = "postgresql"
-  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
   // shadowDatabaseUrl = env("POSTGRES_URL_NON_POOLING") // uses a shadow connection
 }
 
-model User{
-  id String @id @default(cuid())
-  firstname String?
-  lastname String?
-  email String? @unique
-  mobilenumber String @unique
-  address String?
-  dateofbirth DateTime?
-  gender String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model User {
+  id           String      @id @default(cuid())
+  firstname    String?
+  lastname     String?
+  email        String?     @unique
+  mobilenumber String      @unique
+  address      String?
+  dateofbirth  DateTime?
+  gender       String?
+  orders       Orders[]
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
 }
 
-model Operators{
-  id String @id @default(cuid())
-  firstname String?
-  lastname String?
-  email String? @unique
-  mobilenumber String @unique
-  address String?
-  dateofbirth DateTime?
-  gender String?
-  password String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model Operators {
+  id           String    @id @default(cuid())
+  firstname    String?
+  lastname     String?
+  email        String?   @unique
+  mobilenumber String    @unique
+  address      String?
+  dateofbirth  DateTime?
+  gender       String?
+  password     String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 }
 
-model Product{
-  id Int @id @unique @default(autoincrement())
-  name String @unique
-  category String
-  total_units String
-  cost_price String
-  margin String
+model Product {
+  id            Int         @id @unique @default(autoincrement())
+  name          String      @unique
+  category      String
+  total_units   String
+  cost_price    String
+  margin        String
   selling_price String
-  units_sold String?
+  units_sold    String?
+  CartItems     CartItems[]
 }
 
-model Service{
-  id Int @id @unique @default(autoincrement())
-  name String @unique
-  charge String
+model Service {
+  id        Int         @id @unique @default(autoincrement())
+  name      String      @unique
+  charge    String
+  CartItems CartItems[]
+}
+
+model Orders {
+  id           Int         @id @unique @default(autoincrement())
+  customer     User        @relation(fields: [customer_id], references: [id])
+  customer_id  String      @unique
+  items        CartItems[]
+  tax          Float
+  total_amount Float
+}
+
+model CartItems {
+  id           Int      @id @unique @default(autoincrement())
+  product_id   Int?
+  product      Product? @relation(fields: [product_id], references: [id])
+  quantity     Int?
+  service_id   Int?
+  service      Service? @relation(fields: [service_id], references: [id])
+  Orders       Orders?  @relation(fields: [ordersId], references: [id])
+  ordersId     Int?
+  total_amount Float?
 }

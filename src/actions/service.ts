@@ -55,3 +55,12 @@ export const deleteService=async(id:number)=>{
     }
     redirect('/dashboard/services',RedirectType.replace)
 }
+
+export const getServiceById=async(id:number)=>{
+    const service = db.service.findUnique({
+        where:{
+            id
+        }
+    })
+    return service;
+}

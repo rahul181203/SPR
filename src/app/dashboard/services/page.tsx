@@ -1,5 +1,5 @@
-
 import { deleteService, getAllServices } from "@/actions/service"
+import AddCart from "@/components/AddCart"
 import DeleteButton from "@/components/DeleteButton"
 import SearchBar from "@/components/searchbar"
 import { Button, Flex, Heading, Table } from "@radix-ui/themes"
@@ -29,6 +29,7 @@ export default async function Services({
                         {/* <Table.ColumnHeaderCell>Category</Table.ColumnHeaderCell> */}
                         <Table.ColumnHeaderCell>Service Charge</Table.ColumnHeaderCell>
                         <Table.ColumnHeaderCell>Delete</Table.ColumnHeaderCell>
+                        <Table.ColumnHeaderCell>Add to List</Table.ColumnHeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -43,6 +44,7 @@ export default async function Services({
                                         {/* <Table.Cell>{i.name}</Table.Cell> */}
                                         <Table.Cell>{"$"+i.charge}</Table.Cell>
                                         <Table.Cell><DeleteButton id={i.id} method={deleteService} /></Table.Cell>
+                                        <Table.Cell><AddCart id={i.id} type="service" /></Table.Cell>
                                     </Table.Row>
                                 </>
                             )

@@ -6,7 +6,5 @@ export const clockAtom = atom({
 });
 
 
-export const productsList = atom<any[]>([])
-productsList.debugLabel = "product list"
-export const servicesList = atom<any[]>([])
-servicesList.debugLabel = "services list"
+export const cartList = atom<any[]>([])
+cartList.debugLabel = "cart list"
