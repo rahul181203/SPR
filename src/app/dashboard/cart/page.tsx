@@ -18,42 +18,81 @@ import { Suspense } from "react";
 export default function Cart() {
   const [list, setList] = useAtom(cartList);
 
-  const updateQuantity = (productId: number, newQuantity: number) => {
-    setList((prevList) => {
+  // const updateQuantity = (productId: number, newQuantity: number) => {
+  //   setList((prevList) => {
+  //     return {
+  //       ...prevList,
+  //       items: prevList.items.map((item) => {
+  //         if (item.product_id === productId) {
+  //           const updatedTotalAmount =
+  //             (item.total_amount! / item.quantity!) * newQuantity;
+  //           return {
+  //             ...item,
+  //             quantity: newQuantity,
+  //             total_amount: updatedTotalAmount,
+  //           };
+  //         }
+  //         return item;
+  //       }),
+  //       totalPrice: prevList.items.reduce(
+  //         (total, item) =>
+  //           total +
+  //           (item.product_id === productId
+  //             ? (item.total_amount! / item.quantity!) * newQuantity
+  //             : item.total_amount!),
+  //         0
+  //       ),
+  //     };
+  //   });
+  // };
+
+  // const removeItem = (productId: number) => {
+  //   setList((prevList) => ({
+  //     ...prevList,
+  //     items: prevList.items.filter((item) => item.product_id !== productId),
+  //     totalPrice: prevList.items
+  //       .filter((item) => item.product_id !== productId)
+  //       .reduce((total, item) => total + item.total_amount!, 0),
+  //   }));
+  // };
+
+  const updateQuantity = (index: number, newQuantity: number) => {
+    setList(prevList => {
+      const updatedItems = prevList.items.map((item, idx) => {
+        if (idx === index) {
+          const pricePerUnit = item.total_amount! / item.quantity!; // Calculate price per unit
+          const updatedTotalAmount = pricePerUnit * newQuantity; // Calculate new total amount
+          return {
+            ...item,
+            quantity: newQuantity,
+            total_amount: updatedTotalAmount
+          };
+        }
+        return item; // Return other items unchanged
+      });
+
+      // Calculate new total price
+      const newTotalPrice = updatedItems.reduce((total, item) => total + item.total_amount!, 0);
+
       return {
         ...prevList,
-        items: prevList.items.map((item) => {
-          if (item.product_id === productId) {
-            const updatedTotalAmount =
-              (item.total_amount! / item.quantity!) * newQuantity;
-            return {
-              ...item,
-              quantity: newQuantity,
-              total_amount: updatedTotalAmount,
-            };
-          }
-          return item;
-        }),
-        totalPrice: prevList.items.reduce(
-          (total, item) =>
-            total +
-            (item.product_id === productId
-              ? (item.total_amount! / item.quantity!) * newQuantity
-              : item.total_amount!),
-          0
-        ),
+        items: updatedItems,
+        totalPrice: newTotalPrice
       };
     });
   };
 
-  const removeItem = (productId: number) => {
-    setList((prevList) => ({
-      ...prevList,
-      items: prevList.items.filter((item) => item.product_id !== productId),
-      totalPrice: prevList.items
-        .filter((item) => item.product_id !== productId)
-        .reduce((total, item) => total + item.total_amount!, 0),
-    }));
+  const deleteItem = (index: number) => {
+    setList(prevList => {
+      const updatedItems = prevList.items.filter((_, idx) => idx !== index);
+      const newTotalPrice = updatedItems.reduce((total, item) => total + item.total_amount!, 0);
+
+      return {
+        ...prevList,
+        items: updatedItems,
+        totalPrice: newTotalPrice
+      };
+    });
   };
 
   return (
@@ -102,7 +141,7 @@ export default function Cart() {
                             opacity={item?.quantity == 1 ? 0.4 : 1}
                             onClick={() =>
                               updateQuantity(
-                                item.product_id!,
+                                idx,
                                 item.quantity! - 1
                               )
                             }
@@ -115,7 +154,7 @@ export default function Cart() {
                           <PlusCircledIcon
                             onClick={() =>
                               updateQuantity(
-                                item.product_id!,
+                                idx,
                                 item.quantity! + 1
                               )
                             }
@@ -128,7 +167,7 @@ export default function Cart() {
                     <Table.Cell>${item.total_amount!}</Table.Cell>
                     <Table.Cell>
                       <Button
-                        onClick={() => removeItem(item.product_id!)}
+                        onClick={() => deleteItem(idx)}
                         color="red"
                       >
                         Delete

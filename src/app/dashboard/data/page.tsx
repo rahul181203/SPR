@@ -3,13 +3,8 @@ import DonutChart from "@/components/charts/donutchart";
 import LineChart from "@/components/charts/linechart";
 import PieChart from "@/components/charts/piechart";
 import { Box, Heading, Text, Flex, Grid } from "@radix-ui/themes";
-import { useEffect } from "react";
 
 export default function Data() {
-  var footer = document.getElementById("footer")
-  useEffect(()=>{
-    footer?.classList.add("hidden")
-  },[])
   
   return (
     <>
