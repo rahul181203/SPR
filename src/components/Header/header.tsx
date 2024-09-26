@@ -18,16 +18,6 @@ const Header=async()=>{
                 <Box position={'relative'}>
                     <Flex align={'center'} gap={'3'}>
                     <Clock />
-                    <Link href={'/dashboard/cart'} className="p-2">
-                    <Box position={'relative'}>
-                        <CubeIcon width={'30'} height={'30'}/>
-                        <Box className="   absolute left-full top-0 h-5 w-5 ">
-                            <Flex align={'center'} justify={'center'} className="bg-slate-500 rounded-full">
-                                <GetLength/>
-                            </Flex>
-                        </Box>
-                    </Box>
-                    </Link>
                     <Text m={'3'}>{session?.user?.email}</Text>
                     <Avatar src="/" fallback={'a'} size={'4'} radius="full" />
                     </Flex>

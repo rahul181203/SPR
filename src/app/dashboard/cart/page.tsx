@@ -1,24 +1,59 @@
 "use client";
 import Loading from "@/app/loading";
+import { GoToCartButton } from "@/components/CartButton";
 import { cartList } from "@/store";
 import { MinusCircledIcon, PlusCircledIcon } from "@radix-ui/react-icons";
-import { Box, Button, Flex, Heading, Table, Text } from "@radix-ui/themes";
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  Link,
+  Table,
+  Text,
+} from "@radix-ui/themes";
 import { useAtom } from "jotai";
 import { Suspense } from "react";
 
 export default function Cart() {
   const [list, setList] = useAtom(cartList);
 
-  const updateQuantity = (idx: number, newQuantity: number) => {
-    setList((prevCart) =>
-      prevCart.map((item, i) =>
-        i == idx ? { ...item, quantity: newQuantity } : item
-      )
-    );
+  const updateQuantity = (productId: number, newQuantity: number) => {
+    setList((prevList) => {
+      return {
+        ...prevList,
+        items: prevList.items.map((item) => {
+          if (item.product_id === productId) {
+            const updatedTotalAmount =
+              (item.total_amount! / item.quantity!) * newQuantity;
+            return {
+              ...item,
+              quantity: newQuantity,
+              total_amount: updatedTotalAmount,
+            };
+          }
+          return item;
+        }),
+        totalPrice: prevList.items.reduce(
+          (total, item) =>
+            total +
+            (item.product_id === productId
+              ? (item.total_amount! / item.quantity!) * newQuantity
+              : item.total_amount!),
+          0
+        ),
+      };
+    });
   };
 
-  const removeItem = (idx: number) => {
-    setList((prevCart) => prevCart.filter((_, i) => i != idx));
+  const removeItem = (productId: number) => {
+    setList((prevList) => ({
+      ...prevList,
+      items: prevList.items.filter((item) => item.product_id !== productId),
+      totalPrice: prevList.items
+        .filter((item) => item.product_id !== productId)
+        .reduce((total, item) => total + item.total_amount!, 0),
+    }));
   };
 
   return (
@@ -40,7 +75,7 @@ export default function Cart() {
         </Table.Header>
         <Suspense fallback={<Loading />}>
           <Table.Body key={0}>
-            {list.map((item, idx) => {
+            {list.items.map((item, idx) => {
               return (
                 <>
                   <Table.Row key={idx + 1}>
@@ -57,14 +92,19 @@ export default function Cart() {
                     <Table.Cell>
                       {item?.product_id != null ? item.category : "-"}
                     </Table.Cell>
-                    <Table.Cell>${item?.total_amount}</Table.Cell>
+                    <Table.Cell>
+                      ${item?.total_amount! / item?.quantity!}
+                    </Table.Cell>
                     <Table.Cell>
                       <Flex gap={"3"}>
                         <button disabled={item?.quantity == 1}>
                           <MinusCircledIcon
                             opacity={item?.quantity == 1 ? 0.4 : 1}
                             onClick={() =>
-                              updateQuantity(idx, item?.quantity - 1)
+                              updateQuantity(
+                                item.product_id!,
+                                item.quantity! - 1
+                              )
                             }
                             height={"20"}
                             width={"20"}
@@ -74,7 +114,10 @@ export default function Cart() {
                         <button>
                           <PlusCircledIcon
                             onClick={() =>
-                              updateQuantity(idx, item?.quantity + 1)
+                              updateQuantity(
+                                item.product_id!,
+                                item.quantity! + 1
+                              )
                             }
                             height={"20"}
                             width={"20"}
@@ -82,11 +125,12 @@ export default function Cart() {
                         </button>
                       </Flex>
                     </Table.Cell>
+                    <Table.Cell>${item.total_amount!}</Table.Cell>
                     <Table.Cell>
-                      ${item?.total_amount * item?.quantity}
-                    </Table.Cell>
-                    <Table.Cell>
-                      <Button onClick={() => removeItem(idx)} color="red">
+                      <Button
+                        onClick={() => removeItem(item.product_id!)}
+                        color="red"
+                      >
                         Delete
                       </Button>
                     </Table.Cell>
@@ -97,6 +141,18 @@ export default function Cart() {
           </Table.Body>
         </Suspense>
       </Table.Root>
+      <footer id="footer" className="fixed bottom-0 right-0 m-4 z-10 w-[100%]">
+        <Box className="fixed bottom-0 right-0 m-4">
+          <Flex gap={"3"} justify={"center"} align={"center"}>
+            <Text>${list.totalPrice}</Text>
+            <Link href="/dashboard/order">
+              <Button variant="soft" type="button">
+                Proceed To CheckOut
+              </Button>
+            </Link>
+          </Flex>
+        </Box>
+      </footer>
     </>
   );
 }

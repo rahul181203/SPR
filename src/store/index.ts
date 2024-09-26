@@ -1,3 +1,4 @@
+import { CartListInterface } from '@/interfaces';
 import { atom } from 'jotai';
 
 export const clockAtom = atom({
@@ -6,5 +7,7 @@ export const clockAtom = atom({
 });
 
 
-export const cartList = atom<any[]>([])
+
+
+export const cartList = atom<CartListInterface>({items:[],totalPrice:0})
 cartList.debugLabel = "cart list"

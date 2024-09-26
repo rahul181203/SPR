@@ -4,7 +4,7 @@ import '@radix-ui/themes/styles.css';
 import { Theme } from '@radix-ui/themes';
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
-import Providers from "@/components/provider";
+import Providers from "@/components/JotaiProvider";
 import { Suspense } from "react";
 import Loading from "./loading";
 

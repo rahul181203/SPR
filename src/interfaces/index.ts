@@ -6,3 +6,8 @@ export interface CartItem{
     service_id?:number | null
     total_amount?:number
 }
+
+export interface CartListInterface{
+    items:CartItem[],
+    totalPrice:number
+  }

@@ -1,11 +1,14 @@
 import { Inter } from "next/font/google";
 import '@radix-ui/themes/styles.css';
-import { Box, ScrollArea } from "@radix-ui/themes";
+import { Box, ScrollArea,Text } from "@radix-ui/themes";
 import Head from "next/head";
 import SideBar from "@/components/SideMenu/sidebar";
 import Header from "@/components/Header/header";
 import { Suspense } from "react";
 import Loading from "../loading";
+import { useAtom } from "jotai";
+import { cartList } from "@/store";
+import { GoToCartButton } from "@/components/CartButton";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,6 +22,7 @@ export default function DashBoardLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+
   return (
     <>
     <Header/>
@@ -35,4 +39,3 @@ export default function DashBoardLayout({
     </>
   );
 }
-
