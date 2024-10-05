@@ -4,6 +4,7 @@ import { cartList } from "@/store"
 import { Box, Button, Flex, Text } from "@radix-ui/themes"
 import { useAtom } from "jotai"
 import Link from "next/link"
+import * as React from "react"
 
 export const GoToCartButton=()=>{
     const [cart,setCart] = useAtom(cartList)

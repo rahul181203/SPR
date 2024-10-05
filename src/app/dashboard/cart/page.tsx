@@ -1,5 +1,6 @@
 "use client";
 import Loading from "@/app/loading";
+import * as React from "react"
 import { GoToCartButton } from "@/components/CartButton";
 import { cartList } from "@/store";
 import { MinusCircledIcon, PlusCircledIcon } from "@radix-ui/react-icons";
@@ -8,12 +9,13 @@ import {
   Button,
   Flex,
   Heading,
-  Link,
   Table,
   Text,
 } from "@radix-ui/themes";
+import Link from "next/link"
 import { useAtom } from "jotai";
 import { Suspense } from "react";
+
 
 export default function Cart() {
   const [list, setList] = useAtom(cartList);
@@ -95,6 +97,7 @@ export default function Cart() {
     });
   };
 
+
   return (
     <>
       <Heading>Cart List</Heading>
@@ -116,7 +119,6 @@ export default function Cart() {
           <Table.Body key={0}>
             {list.items.map((item, idx) => {
               return (
-                <>
                   <Table.Row key={idx + 1}>
                     <Table.RowHeaderCell>{idx + 1}</Table.RowHeaderCell>
                     <Table.Cell>
@@ -174,7 +176,6 @@ export default function Cart() {
                       </Button>
                     </Table.Cell>
                   </Table.Row>
-                </>
               );
             })}
           </Table.Body>
@@ -184,8 +185,8 @@ export default function Cart() {
         <Box className="fixed bottom-0 right-0 m-4">
           <Flex gap={"3"} justify={"center"} align={"center"}>
             <Text>${list.totalPrice}</Text>
-            <Link href="/dashboard/order">
-              <Button variant="soft" type="button">
+            <Link href="/dashboard/checkout">
+              <Button disabled={list.totalPrice < 1 ? true : false} variant="soft" type="button">
                 Proceed To CheckOut
               </Button>
             </Link>

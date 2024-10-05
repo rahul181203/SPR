@@ -3,6 +3,7 @@ import DonutChart from "@/components/charts/donutchart";
 import LineChart from "@/components/charts/linechart";
 import PieChart from "@/components/charts/piechart";
 import { Box, Heading, Text, Flex, Grid } from "@radix-ui/themes";
+import * as React from "react"
 
 export default function Data() {
   

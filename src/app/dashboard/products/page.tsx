@@ -8,6 +8,7 @@ import { Suspense } from "react";
 import DeleteButton from "@/components/DeleteButton";
 import AddCart from "@/components/AddCart";
 import { GoToCartButton } from "@/components/CartButton";
+import * as React from "react"
 
 export default async function Products({
   searchParams,
@@ -18,7 +19,7 @@ export default async function Products({
     typeof searchParams.q === "string" ? searchParams.q : undefined;
 
   const data = await getAllProducts(search!);
-
+  
   return (
     <>
       <Flex justify={"between"} align={"center"}>

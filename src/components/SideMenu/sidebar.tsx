@@ -1,6 +1,7 @@
 import { signOut } from "@/auth";
 import { ArchiveIcon, BarChartIcon, CardStackIcon, CubeIcon, ExitFullScreenIcon, ExitIcon, GearIcon, PersonIcon, PieChartIcon, UpdateIcon } from "@radix-ui/react-icons";
 import { Avatar, Box, Text,Flex,Button } from "@radix-ui/themes";
+import * as React from "react"
 import Link from "next/link";
 
 export default function SideBar(){

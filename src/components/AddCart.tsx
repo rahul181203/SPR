@@ -6,6 +6,7 @@ import { atom, useAtom } from "jotai"
 import {getProductById} from "@/actions/products"
 import { CartItem, CartListInterface } from "@/interfaces"
 import { getServiceById } from "@/actions/service"
+import * as React from "react"
 
 
 export default function AddCart({id,type}:{id:number,type:string}){

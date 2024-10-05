@@ -2,6 +2,7 @@
 import { getOrders } from "@/actions/orders"
 import SearchBar from "@/components/searchbar";
 import { Table, Heading } from "@radix-ui/themes"
+import * as React from "react"
 
 export default async function Orders(){
     const orders = await getOrders();

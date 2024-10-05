@@ -9,6 +9,7 @@ import Loading from "../loading";
 import { useAtom } from "jotai";
 import { cartList } from "@/store";
 import { GoToCartButton } from "@/components/CartButton";
+import * as React from "react"
 
 const inter = Inter({ subsets: ["latin"] });
 

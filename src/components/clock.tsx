@@ -3,6 +3,7 @@ import { clockAtom } from "@/store";
 import { Text } from "@radix-ui/themes";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
+import * as React from "react"
 
 const pad=(n:number)=>(n<10)?`0${n}`:n;
 const format=(t:Date)=>`${pad(t.getHours())}:${pad(t.getMinutes())}:${pad(t.getSeconds())}`

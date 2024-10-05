@@ -1,4 +1,5 @@
 import { Flex, Heading, Spinner } from "@radix-ui/themes";
+import * as React from "react"
 
 export default function Loading(){
     return (

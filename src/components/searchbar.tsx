@@ -3,6 +3,7 @@ import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { TextField } from "@radix-ui/themes";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import * as React from "react"
 
 export default function SearchBar(){
     const params  = useSearchParams()

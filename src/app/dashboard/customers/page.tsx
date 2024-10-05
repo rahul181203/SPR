@@ -1,6 +1,7 @@
 "use client"
 
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons"
+import * as React from "react"
 import { Heading, Table, TextField } from "@radix-ui/themes"
 
 export default function Customers(){

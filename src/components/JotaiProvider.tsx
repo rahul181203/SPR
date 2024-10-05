@@ -2,6 +2,7 @@
 
 import { Provider } from "jotai"
 import { DevTools } from 'jotai-devtools'
+import * as React from "react"
 import 'jotai-devtools/styles.css'
 
 export default function Providers({children}:{children:React.ReactNode}){

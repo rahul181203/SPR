@@ -3,6 +3,7 @@ import { Avatar, Box, Text,Flex } from "@radix-ui/themes";
 import Clock from "../clock";
 import { CubeIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
+import * as React from "react"
 
 const Header=async()=>{
     const session = await auth();

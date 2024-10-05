@@ -2,6 +2,7 @@
 
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons"
 import { Heading, Table, TextField } from "@radix-ui/themes"
+import * as React from "react"
 
 export default function Transactions(){
     return(
