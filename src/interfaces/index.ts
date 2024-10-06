@@ -10,4 +10,13 @@ export interface CartItem{
 export interface CartListInterface{
     items:CartItem[],
     totalPrice:number
-  }
+}
+
+export interface UserDTO{
+    firstname:string
+    lastname:string
+    email:string
+    mobilenumber:string
+    address:string
+    gender:string
+}

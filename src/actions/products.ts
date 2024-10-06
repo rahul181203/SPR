@@ -5,18 +5,6 @@ import { db } from "@/lib/prisma";
 import { permanentRedirect, redirect, RedirectType } from 'next/navigation';
 import { CartItem } from '@/interfaces';
 
-// const items:CartItem[] = [
-//     {
-//         product_id:2,
-//     },
-//     {
-//         product_id:3
-//     },
-//     {
-//         service_id:3
-//     }
-// ]
-
 export const AddProductAction=async(values:z.infer<typeof addProductSchema>)=>{
     const validateResponse = addProductSchema.safeParse(values);
     
