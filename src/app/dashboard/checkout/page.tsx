@@ -21,11 +21,10 @@ export default function CheckOut() {
       <Box maxWidth="600px">
         <RadioCards.Root
           columns={"1"}
-          onClick={(x) => {
-            setRadio((x.target as HTMLInputElement).value)
-        }}
         >
-          <RadioCards.Item value="creditCard">
+          <RadioCards.Item value="creditCard" onClick={(x) => {
+            setRadio((x.target as HTMLInputElement).value)
+        }}>
             <Flex direction="column" width="100%">
               <Text weight="bold">Credit Card</Text>
             </Flex>
@@ -46,7 +45,9 @@ export default function CheckOut() {
               </Box>
             </>
           )}
-          <RadioCards.Item value="cash">
+          <RadioCards.Item value="cash" onClick={(x) => {
+            setRadio((x.target as HTMLInputElement).value)
+        }}>
             <Flex direction="column" width="100%">
               <Text weight="bold">Cash</Text>
             </Flex>
