@@ -28,9 +28,9 @@ export default function AddCart({id,type}:{id:number,type:string}){
                 service_id:null,
                 name:d?.name,
                 category:d?.category,
-                total_amount:parseInt(d?.selling_price || '0')
+                total_amount:d?.selling_price
             }],
-            totalPrice:prod.totalPrice+parseInt(d?.selling_price || '0')})
+            totalPrice:prod.totalPrice+d?.selling_price!})
         })
     }
 
@@ -48,9 +48,9 @@ export default function AddCart({id,type}:{id:number,type:string}){
                 name:d?.name,
                 quantity:1,
                 service_id:d?.id || null,
-                total_amount:parseInt(d?.charge || '0')
+                total_amount:d?.charge
             }],
-        totalPrice:prod.totalPrice + parseInt(d?.charge || '0')})
+        totalPrice:prod.totalPrice + d?.charge!})
         })
     }
 

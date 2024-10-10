@@ -19,6 +19,7 @@
     "@stripe/react-stripe-js": "^2.8.1",
     "@stripe/stripe-js": "^4.7.0",
     "@types/faker": "^6.6.9",
+    "@vercel/speed-insights": "^1.0.12",
     "bcryptjs": "^2.4.3",
     "chart.js": "^4.4.3",
     "faker": "^6.6.6",

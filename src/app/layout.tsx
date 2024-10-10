@@ -7,6 +7,7 @@ import { auth } from "@/auth";
 import Providers from "@/components/JotaiProvider";
 import { Suspense } from "react";
 import Loading from "./loading";
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 export const metadata = {
   title: 'Inventory',
@@ -33,6 +34,7 @@ export default async function RootLayout({
             </Providers>
           </SessionProvider>
           </Theme>
+          <SpeedInsights />
         </body>
       </html>
   )
