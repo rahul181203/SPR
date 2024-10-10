@@ -17,13 +17,13 @@ export const registerSchema = z.object({
 export const addProductSchema = z.object({
     name:z.string(),
     category:z.string(),
-    units:z.string(),
-    costprice:z.string(),
-    margin:z.string(),
-    sellingprice:z.string(),
+    units:z.coerce.number(),
+    costprice:z.coerce.number(),
+    margin:z.coerce.number(),
+    sellingprice:z.coerce.number(),
 })
 
 export const serviceSchema = z.object({
     name:z.string(),
-    charge:z.string()
+    charge:z.coerce.number()
 })

@@ -4,6 +4,7 @@ import * as z from "zod"
 import { db } from "@/lib/prisma";
 import { permanentRedirect, redirect, RedirectType } from 'next/navigation';
 import { CartItem } from '@/interfaces';
+import { error } from 'console';
 
 export const AddProductAction=async(values:z.infer<typeof addProductSchema>)=>{
     const validateResponse = addProductSchema.safeParse(values);
@@ -18,20 +19,24 @@ export const AddProductAction=async(values:z.infer<typeof addProductSchema>)=>{
         where:{
             name
         }
+    }).catch(err=>{
+        console.log(err);
     })
 
     if(aldreadyFound){
         return {"error":"Product exists"}
     }
     try{
-        await db.product.create({data:{
+        await db.product.create({
+        data:{
             name:name,
             category:category,
             cost_price:costprice,
             selling_price:sellingprice,
             margin:margin,
             total_units:units
-        }})
+        }
+    })
     }catch(error){
         return {"error":String(error)}
     }

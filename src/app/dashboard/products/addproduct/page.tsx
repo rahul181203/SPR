@@ -19,16 +19,14 @@ export default function AddProduct(){
         resolver:zodResolver(addProductSchema),
         defaultValues:{
             name:"",
-            category:"",
-            costprice:"",
-            margin:"",
-            sellingprice:"",
-            units:""
+            category:""
         }
     })
 
+
     const handleSubmitProduct=(values:z.infer<typeof addProductSchema>)=>{
         setLoading(true)
+        console.log(values);
         startTransition(()=>{
             AddProductAction(values).then((e)=>{
                 (e?.error !== undefined) ? window.alert(e?.error):window.alert('added successfully');

@@ -2,17 +2,14 @@ import { db } from "./lib/prisma";
 import NextAuth from "next-auth";
 import {PrismaAdapter} from "@auth/prisma-adapter"
 import authConfig from "./auth.config";
+import { sendmsg } from "./actions/twilio/sendsms";
 
 
 export const {handlers:{GET,POST},auth,signIn,signOut} = NextAuth({
     callbacks:{
         async signIn({user,account,profile}) {
-            console.log(account);
-            console.log(user);
-            console.log(profile);
-            
 
-            await db.operators.upsert({
+            const u = await db.operators.upsert({
                 where:{
                     email: user.email!,
                 },

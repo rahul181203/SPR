@@ -48,18 +48,18 @@ model Product {
   id            Int         @id @unique @default(autoincrement())
   name          String      @unique
   category      String
-  total_units   String
-  cost_price    String
-  margin        String
-  selling_price String
-  units_sold    String?
+  total_units   Float
+  cost_price    Float
+  margin        Float
+  selling_price Float
+  units_sold    Int?
   CartItems     CartItems[]
 }
 
 model Service {
   id        Int         @id @unique @default(autoincrement())
   name      String      @unique
-  charge    String
+  charge    Float
   CartItems CartItems[]
 }
 
@@ -70,6 +70,7 @@ model Orders {
   items        CartItems[]
   tax          Float
   total_amount Float
+  createdAt DateTime @default(now())
 }
 
 model CartItems {

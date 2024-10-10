@@ -20,7 +20,6 @@ export default function AddService(){
         resolver:zodResolver(serviceSchema),
         defaultValues:{
             name:"",
-            charge:""
         }
     })
 
