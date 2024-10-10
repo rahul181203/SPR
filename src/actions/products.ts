@@ -53,6 +53,7 @@ export const getAllProducts=async(search:string)=>{
             }
         }
     })
+    
     return products;
 }
 

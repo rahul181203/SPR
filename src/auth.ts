@@ -2,8 +2,10 @@ import { db } from "./lib/prisma";
 import NextAuth from "next-auth";
 import {PrismaAdapter} from "@auth/prisma-adapter"
 import authConfig from "./auth.config";
-import { sendmsg } from "./actions/twilio/sendsms";
-
+import { SendMail } from "./services/emailService";
+import { LoginTemplate } from "./services/emailService/templates";
+import os from "node:os"
+import { headers } from "next/headers";
 
 export const {handlers:{GET,POST},auth,signIn,signOut} = NextAuth({
     callbacks:{
@@ -22,7 +24,13 @@ export const {handlers:{GET,POST},auth,signIn,signOut} = NextAuth({
                     firstname:user.name
                 }
             });
-
+            const head = headers()
+            const ip = (head.get('x-forwarded-for') ?? "127.0.0.1").split(",")[0]
+            SendMail(u.email!, LoginTemplate({
+                ip,
+                date:new Date().toLocaleString(),
+                device:os.platform()
+            }))
             return true;
         },
         async session({token,session}){
