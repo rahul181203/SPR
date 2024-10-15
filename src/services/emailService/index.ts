@@ -10,13 +10,12 @@ const transport = nodemailer.createTransport({
     }
 })
 
-export const SendMail=(to:string,template:string)=>{
+export const SendMail=(subject:string,to:string,template:string)=>{
     transport.sendMail({
         from:"inventory096@gmail.com",
         to,
-        subject:"Test Msg",
+        subject,
         html:template,
-        text:"test plain"
     })
     .then((value)=>console.log(value))
     .catch((err)=>console.log(err)

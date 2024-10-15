@@ -26,7 +26,7 @@ export const {handlers:{GET,POST},auth,signIn,signOut} = NextAuth({
             });
             const head = headers()
             const ip = (head.get('x-forwarded-for') ?? "127.0.0.1").split(",")[0]
-            SendMail(u.email!, LoginTemplate({
+            SendMail("Login Detected", u.email!, LoginTemplate({
                 ip,
                 date:new Date().toLocaleString(),
                 device:os.platform()
