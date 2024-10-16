@@ -14,12 +14,7 @@ export default function ChatBot(){
     const [chat,setchat] = React.useState<chatMsg[]>([])
 
     React.useEffect(()=>{
-        const newSocket = io('https://websocketinventory.vercel.app',{
-            withCredentials:true,
-            extraHeaders: {
-                "my-custom-header": "abcd"
-            }
-        })
+        const newSocket = io('https://websocketinventory.vercel.app/')
         setSocket(newSocket)
         return(()=>{
             newSocket.disconnect()
