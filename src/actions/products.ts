@@ -34,7 +34,8 @@ export const AddProductAction=async(values:z.infer<typeof addProductSchema>)=>{
             cost_price:costprice,
             selling_price:sellingprice,
             margin:margin,
-            total_units:units
+            total_units:units,
+            units_sold:0
         }
     })
     }catch(error){

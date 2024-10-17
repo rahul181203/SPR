@@ -17,17 +17,17 @@ datasource db {
 }
 
 model User {
-  id           String      @id @default(cuid())
+  id           String    @id @default(cuid())
   firstname    String?
   lastname     String?
-  email        String?     @unique
-  mobilenumber String      @unique
+  email        String?   @unique
+  mobilenumber String    @unique
   address      String?
   dateofbirth  DateTime?
   gender       String?
   orders       Orders[]
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 }
 
 model Operators {
@@ -45,8 +45,8 @@ model Operators {
 }
 
 model Product {
-  id            Int         @id @unique @default(autoincrement())
-  name          String      @unique
+  id            Int          @id @unique @default(autoincrement())
+  name          String       @unique
   category      String
   total_units   Float
   cost_price    Float
@@ -54,23 +54,26 @@ model Product {
   selling_price Float
   units_sold    Int?
   CartItems     CartItems[]
+  OrderItems    OrderItems[]
 }
 
 model Service {
-  id        Int         @id @unique @default(autoincrement())
-  name      String      @unique
-  charge    Float
-  CartItems CartItems[]
+  id         Int          @id @unique @default(autoincrement())
+  name       String       @unique
+  charge     Float
+  OrderItems OrderItems[]
+  CartItems  CartItems[]
 }
 
 model Orders {
-  id           Int         @id @unique @default(autoincrement())
-  customer     User        @relation(fields: [customer_id], references: [id])
-  customer_id  String      @unique
-  items        CartItems[]
+  id           Int          @id @unique @default(autoincrement())
+  customer     User         @relation(fields: [customer_id], references: [id])
+  customer_id  String       @unique
+  items        OrderItems[]
   tax          Float
   total_amount Float
-  createdAt DateTime @default(now())
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
 }
 
 model CartItems {
@@ -80,7 +83,27 @@ model CartItems {
   quantity     Int?
   service_id   Int?
   service      Service? @relation(fields: [service_id], references: [id])
-  Orders       Orders?  @relation(fields: [ordersId], references: [id])
-  ordersId     Int?
+  Cart         Cart?    @relation(fields: [cartId], references: [id])
+  cartId       Int?
   total_amount Float?
+}
+
+model OrderItems {
+  id           Int      @id @unique @default(autoincrement())
+  product_id   Int?
+  product      Product? @relation(fields: [product_id], references: [id])
+  quantity     Int?
+  service_id   Int?
+  service      Service? @relation(fields: [service_id], references: [id])
+  Order        Orders?  @relation(fields: [orderId], references: [id])
+  orderId      Int?
+  total_amount Float?
+}
+
+model Cart {
+  id           Int         @id @unique @default(autoincrement())
+  items        CartItems[]
+  total_amount Float
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
 }

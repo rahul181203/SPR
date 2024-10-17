@@ -35,5 +35,5 @@ export const register = async (values:z.infer<typeof registerSchema>)=>{
         }
     })
 
-    return {success:"user created"}
+    return {success:"operator created"}
 }

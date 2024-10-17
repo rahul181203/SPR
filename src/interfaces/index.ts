@@ -17,6 +17,6 @@ export interface UserDTO{
     lastname:string
     email:string
     mobilenumber:string
-    address:string
+    address?:string
     gender:string
 }

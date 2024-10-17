@@ -63,13 +63,13 @@ export const ChatOption = () => {
             hidden={chatBox}
             height={"500px"}
             width={"500px"}
-            className=" bg-slate-700"
+            className=" bg-slate-700  rounded-lg"
             my={"5"}
           >
             <Flex
               justify={"between"}
               align={"center"}
-              className=" bg-blue-700 p-3"
+              className=" bg-blue-700 p-3 rounded-lg"
             >
               <Heading>ChatBot</Heading>
               <Cross1Icon

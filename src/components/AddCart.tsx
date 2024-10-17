@@ -14,24 +14,25 @@ export default function AddCart({id,type}:{id:number,type:string}){
     const [prod,addProd] = useAtom<CartListInterface>(cartList);
 
     const addItem=async(id:number)=>{
-        let i = 0;
-        for(i;i<prod.items.length;i++){
-            if(prod.items[i].product_id === id){
-                return window.alert('aldready exists')
-            }
-        }
-        if(i === prod.items.length)
-        getProductById(id).then((d)=>{
-            addProd({items:[...prod.items,{
-                product_id:d?.id || null,
-                quantity:1,
-                service_id:null,
-                name:d?.name,
-                category:d?.category,
-                total_amount:d?.selling_price
-            }],
-            totalPrice:prod.totalPrice+d?.selling_price!})
-        })
+        
+        // let i = 0;
+        // for(i;i<prod.items.length;i++){
+        //     if(prod.items[i].product_id === id){
+        //         return window.alert('aldready exists')
+        //     }
+        // }
+        // if(i === prod.items.length)
+        // getProductById(id).then((d)=>{
+        //     addProd({items:[...prod.items,{
+        //         product_id:d?.id || null,
+        //         quantity:1,
+        //         service_id:null,
+        //         name:d?.name,
+        //         category:d?.category,
+        //         total_amount:d?.selling_price
+        //     }],
+        //     totalPrice:prod.totalPrice+d?.selling_price!})
+        // })
     }
 
     const addServiceItem=async(id:number)=>{
