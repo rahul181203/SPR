@@ -1,9 +1,14 @@
 "use client"
+import { GoToCartButton } from "@/components/CartButton";
 import DonutChart from "@/components/charts/donutchart";
 import LineChart from "@/components/charts/linechart";
 import PieChart from "@/components/charts/piechart";
+import { ChatOption } from "@/components/chatOption";
+import { ReaderIcon } from "@radix-ui/react-icons";
 import { Box, Heading, Text, Flex, Grid } from "@radix-ui/themes";
 import * as React from "react"
+
+
 
 export default function Data() {
   
@@ -54,6 +59,9 @@ export default function Data() {
           <DonutChart/>
         </Box>
       </Grid>
+      <footer className="fixed bottom-0 right-0 m-4 z-10 w-[100%]">
+        <ChatOption/>
+      </footer>
     </>
   );
 }

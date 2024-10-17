@@ -17,6 +17,12 @@ export const protectedRoutes:string[] = [
     "/dashboard/customers",
     "/dashboard/orders",
     "/dashboard/products",
+    "/dashboard/checkout",
+    "/dashboard/payment-success",
+    "/dashboard/services",
+    "/dashboard/transactions",
+    "/dashboard/referals",
+    "/dashboard/cart"
 ]
 
 /**
