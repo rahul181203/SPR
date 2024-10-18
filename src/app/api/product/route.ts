@@ -1,11 +1,9 @@
 "use server"
-import { getProductById } from "@/actions/products";
+import { getAllProducts, getProductById } from "@/actions/products";
 import { NextApiRequest } from "next";
+import { NextRequest } from "next/server";
 
-export async function GET(req:Request){
-    // const data = await req.json();
-    // const {pid} = req.query;
-    // console.log(pid);
-    // const res = await getProductById(data);
-    return Response.json({res:"success"})
+export async function GET(req:NextRequest){
+    const res = await getAllProducts(req.nextUrl.searchParams.get("q") || "");
+    return Response.json(res)
 }

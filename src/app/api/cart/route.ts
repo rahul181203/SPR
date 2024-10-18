@@ -6,14 +6,27 @@ import { da } from "@faker-js/faker";
 import { cartList } from '../../../store/index';
 
 interface CartItemData{
-    product_id?:number|null
-    service_id?:number|null
+    product_id:number|null
+    service_id:number|null
+    quantity:number
 }
 
 export async function POST(req:Request){
     const data:CartItemData = await req.json();
-    console.log(data);
     const cart = await db.cart.findUnique({where:{id:1}})
+
+    const isAvailable = await db.cartItems.findMany({
+        where:{
+            OR:[
+                {product_id:data.product_id},
+                {service_id:data.service_id}
+            ]
+        }
+    })
+    
+    if(isAvailable.length > 0){
+        return Response.json({msg:"product aldready exists"})
+    }
     let price;
     if(data.product_id){
         const product = await getProductById(data.product_id)
@@ -28,16 +41,17 @@ export async function POST(req:Request){
             data:{
                 cartId:1,
                 product_id:data.product_id,
-                quantity:1,
+                quantity:data.quantity,
                 service_id:data.service_id,
-                total_amount:price
+                total_amount:(price! * data.quantity)
             }
         })
         await db.cart.update({
             where:{
                 id:1,
-            },data:{
-                total_amount: cart.total_amount + price!
+            },
+            data:{
+                total_amount: cart.total_amount + (price! * data.quantity)
             }
         })
         return Response.json({msg:"added"})
@@ -93,6 +107,15 @@ export async function PUT(req:Request){
                 total_amount:((item.Cart?.total_amount!) - item.total_amount!) + amount
             }
         })
+        return Response.json({msg:"success"})
+    }
+    return Response.json({msg:"cartitem not found"})
+}
+
+export async function DELETE(req:Request){
+    const res = await db.cartItems.deleteMany({})
+    await db.cart.update({where:{id:1},data:{total_amount:0}})
+    if(res){
         return Response.json({msg:"success"})
     }
     return Response.json({msg:"cartitem not found"})

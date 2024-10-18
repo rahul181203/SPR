@@ -17,8 +17,10 @@ import {
   Heading,
   Table,
 } from "@radix-ui/themes";
-import { UserDTO } from "@/interfaces";
+import { CartDTO, UserDTO } from "@/interfaces";
 import { AvatarIcon } from "@radix-ui/react-icons";
+import Link from "next/link";
+import Loading from "../loading";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISH_KEY!);
 
@@ -28,6 +30,8 @@ export default function CheckOut() {
   const [data, setData] = React.useState<UserDTO[]>([]);
   const [loading, setLoading] = React.useState<boolean>(true);
   const [selectedUser, setSelectedUser] = React.useState<UserDTO>();
+  const [cartlist,setCartList] = React.useState<CartDTO>()
+  const [cartLoader,setCartLoader] = React.useState<boolean>(true)
 
   if(typeof window !== "undefined"){
     window.addEventListener("click",function(e){
@@ -38,7 +42,17 @@ export default function CheckOut() {
       }
     })
   }
-  
+
+  React.useEffect(()=>{
+      fetch("/api/cart",{
+        method:"GET",
+        headers:{
+          "Content-Type": "application/json",
+        }
+      })
+      .then((res)=>res.json())
+      .then((d)=>{setCartList(d);setCartLoader(false)})
+  },[])
 
   React.useEffect(() => {
     let timeout = setTimeout(() => {
@@ -58,8 +72,16 @@ export default function CheckOut() {
     };
   }, [search]);
 
-  const list = useAtomValue(cartList);
-  const amount = list.totalPrice == 0 ? 1 : list.totalPrice;
+  if(cartLoader){
+    return (
+      <>
+        <Loading/>
+      </>
+    )
+  }
+
+  // const list = useAtomValue(cartList);
+  const amount = cartlist?.total_amount == undefined ? 1 : cartlist?.total_amount;
   return (
     <>
       <Box mb={"4"} position={"relative"}>
@@ -86,10 +108,13 @@ export default function CheckOut() {
                 </Flex>
             );
           })}
+          <Link href={"/dashboard/checkout/adduser"}>
           <Flex className="cursor-pointer" p={"3"} m={'3'} align={"center"} gap={"3"}>
               <AvatarIcon height={"20"} width={"20"} />
                 <Text>Add New User</Text>
           </Flex>
+          </Link>
+          
         </Box>
       </Box>
       <Box m={"3"}>
@@ -127,16 +152,24 @@ export default function CheckOut() {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            <Table.Row>
-              <Table.Cell>Mac Book Pro</Table.Cell>
-              <Table.Cell>2</Table.Cell>
-              <Table.Cell>$1299.99</Table.Cell>
-            </Table.Row>
+            {
+              cartlist?.items.map((v,i)=>{
+                return(
+                  <Table.Row key={i}>
+                    <Table.Cell>{(v.product?.name)?v.product.name:v.service?.name}</Table.Cell>
+                    <Table.Cell>{v.quantity}</Table.Cell>
+                    <Table.Cell>${v.total_amount}</Table.Cell>
+                  </Table.Row>
+                )
+              })
+            }
           </Table.Body>
         </Table.Root>
       </Box>
 
-      <Box maxWidth="600px">
+      <Heading m={'3'}>Payment Option: </Heading>
+
+      <Box maxWidth="600px" m={'3'}>
         <RadioCards.Root columns={"1"}>
           <RadioCards.Item
             value="creditCard"

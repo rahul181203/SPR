@@ -20,3 +20,33 @@ export interface UserDTO{
     address?:string
     gender:string
 }
+
+interface ProductDTO{
+    id: number,
+    name: string,
+    category: string,
+    total_units: number,
+    cost_price: number,
+    margin: number,
+    selling_price: number,
+    units_sold: number
+}
+
+interface ServiceDTO{
+    id: number,
+    name: string,
+    charge: number
+}
+
+interface ItemDTO{
+    id: number,
+    product: ProductDTO | null,
+    service: ServiceDTO | null,
+    quantity: number,
+    total_amount: number
+}
+
+export interface CartDTO{
+    total_amount: number,
+    items: ItemDTO[]
+}

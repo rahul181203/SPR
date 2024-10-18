@@ -1,5 +1,5 @@
 "use client";
-import Loading from "@/app/loading";
+import Loading from "../loading";
 import * as React from "react"
 import { GoToCartButton } from "@/components/CartButton";
 import { cartList } from "@/store";
@@ -15,48 +15,35 @@ import {
 import Link from "next/link"
 import { useAtom } from "jotai";
 import { Suspense } from "react";
-
+import { useRouter } from 'next/navigation'
 
 export default function Cart() {
   const [list, setList] = useAtom(cartList);
+  const [loading,setLoading] = React.useState(false)
+  const router = useRouter()
 
-  // const updateQuantity = (productId: number, newQuantity: number) => {
-  //   setList((prevList) => {
-  //     return {
-  //       ...prevList,
-  //       items: prevList.items.map((item) => {
-  //         if (item.product_id === productId) {
-  //           const updatedTotalAmount =
-  //             (item.total_amount! / item.quantity!) * newQuantity;
-  //           return {
-  //             ...item,
-  //             quantity: newQuantity,
-  //             total_amount: updatedTotalAmount,
-  //           };
-  //         }
-  //         return item;
-  //       }),
-  //       totalPrice: prevList.items.reduce(
-  //         (total, item) =>
-  //           total +
-  //           (item.product_id === productId
-  //             ? (item.total_amount! / item.quantity!) * newQuantity
-  //             : item.total_amount!),
-  //         0
-  //       ),
-  //     };
-  //   });
-  // };
+  const NextSection=async()=>{
+    setLoading(true)
+    await fetch("/api/cart",{method:"DELETE"})
+    for(var i=0;i<list.items.length;i++){
+      await fetch("/api/cart",{
+        method:"POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body:(list.items[i].product_id !== null) ? JSON.stringify({"product_id":list.items[i].product_id,"quantity":list.items[i].quantity}):JSON.stringify({"service_id":list.items[i].service_id,"quantity":list.items[i].quantity})
+      })
+    }
+    router.push("/dashboard/checkout")
+  }
 
-  // const removeItem = (productId: number) => {
-  //   setList((prevList) => ({
-  //     ...prevList,
-  //     items: prevList.items.filter((item) => item.product_id !== productId),
-  //     totalPrice: prevList.items
-  //       .filter((item) => item.product_id !== productId)
-  //       .reduce((total, item) => total + item.total_amount!, 0),
-  //   }));
-  // };
+  if(loading){
+    return(
+      <>
+        <Loading/>
+      </>
+    )
+  }
 
   const updateQuantity = (index: number, newQuantity: number) => {
     setList(prevList => {
@@ -185,11 +172,9 @@ export default function Cart() {
         <Box className="fixed bottom-0 right-0 m-4">
           <Flex gap={"3"} justify={"center"} align={"center"}>
             <Text>${list.totalPrice}</Text>
-            <Link href="/dashboard/checkout">
-              <Button disabled={list.totalPrice < 1 ? true : false} variant="soft" type="button">
+              <Button onClick={()=>NextSection()} disabled={list.totalPrice < 1 ? true : false} variant="soft" type="button">
                 Proceed To CheckOut
               </Button>
-            </Link>
           </Flex>
         </Box>
       </footer>
