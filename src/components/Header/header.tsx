@@ -7,7 +7,6 @@ import * as React from "react"
 
 const Header=async()=>{
     const session = await auth();
-    
     return(
         <>
             <main className="flex items-center justify-between px-4 bg-slate-900 relative">
@@ -17,7 +16,7 @@ const Header=async()=>{
                 </Box>
                 <Box position={'relative'}>
                     <Flex align={'center'} gap={'3'}>
-                    <Clock />
+                    <Clock opid={session?.user?.id!}/>
                     <Text m={'3'}>{session?.user?.email}</Text>
                     <Avatar src="/" fallback={'a'} size={'4'} radius="full" />
                     </Flex>

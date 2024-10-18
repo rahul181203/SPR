@@ -12,6 +12,7 @@ export default function AddProduct(){
     const [isPending,startTransition] = useTransition();
     const [loading, setLoading] = useState(false);
     const [user,setUser] = useState<UserDTO>({
+        id:"",
         firstname:"",
         lastname:"",
         email:"",

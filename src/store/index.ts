@@ -6,8 +6,8 @@ export const clockAtom = atom({
   lastUpdate: Date.now(),
 });
 
-
-
+export const userID = atom<string>("")
+userID.debugLabel = "user id"
 
 export const cartList = atom<CartListInterface>({items:[],totalPrice:0})
 cartList.debugLabel = "cart list"

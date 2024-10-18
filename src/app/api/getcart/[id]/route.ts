@@ -1,5 +1,4 @@
 import { db } from "@/lib/prisma";
-import { NextApiRequest } from "next";
 
 export async function GET(
     req:Request,
@@ -18,16 +17,6 @@ export async function GET(
                         service_id:true,
                         quantity:true,
                         total_amount:true,
-                        product:{
-                            select:{
-                                name:true
-                            }
-                        },
-                        service:{
-                            select:{
-                                name:true
-                            }
-                        }
                     },
                 }
             },

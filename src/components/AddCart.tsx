@@ -24,9 +24,9 @@ export default function AddCart({id,type}:{id:number,type:string}){
         if(i === prod.items.length)
         getProductById(id).then((d)=>{
             addProd({items:[...prod.items,{
-                product_id:d?.id || null,
+                product_id:d?.id || undefined,
                 quantity:1,
-                service_id:null,
+                service_id:undefined,
                 name:d?.name,
                 category:d?.category,
                 total_amount:d?.selling_price
@@ -45,10 +45,10 @@ export default function AddCart({id,type}:{id:number,type:string}){
         if(i === prod.items.length)
         getServiceById(id).then((d)=>{
             addProd({items:[...prod.items,{
-                product_id:null,
+                product_id:undefined,
                 name:d?.name,
                 quantity:1,
-                service_id:d?.id || null,
+                service_id:d?.id || undefined,
                 total_amount:d?.charge
             }],
         totalPrice:prod.totalPrice + d?.charge!})

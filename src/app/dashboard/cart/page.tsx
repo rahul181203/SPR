@@ -2,7 +2,7 @@
 import Loading from "../loading";
 import * as React from "react"
 import { GoToCartButton } from "@/components/CartButton";
-import { cartList } from "@/store";
+import { cartList, userID } from "@/store";
 import { MinusCircledIcon, PlusCircledIcon } from "@radix-ui/react-icons";
 import {
   Box,
@@ -13,7 +13,7 @@ import {
   Text,
 } from "@radix-ui/themes";
 import Link from "next/link"
-import { useAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import { Suspense } from "react";
 import { useRouter } from 'next/navigation'
 
@@ -21,17 +21,21 @@ export default function Cart() {
   const [list, setList] = useAtom(cartList);
   const [loading,setLoading] = React.useState(false)
   const router = useRouter()
+  const user = useAtomValue(userID)
+
+  console.log(user);
+  
 
   const NextSection=async()=>{
     setLoading(true)
-    await fetch("/api/cart",{method:"DELETE"})
+    await fetch("/api/cart",{method:"DELETE",body:JSON.stringify({"opid":user})})
     for(var i=0;i<list.items.length;i++){
       await fetch("/api/cart",{
         method:"POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body:(list.items[i].product_id !== null) ? JSON.stringify({"product_id":list.items[i].product_id,"quantity":list.items[i].quantity}):JSON.stringify({"service_id":list.items[i].service_id,"quantity":list.items[i].quantity})
+        body:(list.items[i].product_id) ? JSON.stringify({"opid":user,"product_id":list.items[i].product_id,"quantity":list.items[i].quantity}):JSON.stringify({"opid":user,"service_id":list.items[i].service_id,"quantity":list.items[i].quantity})
       })
     }
     router.push("/dashboard/checkout")

@@ -6,6 +6,7 @@ import { da } from "@faker-js/faker";
 import { cartList } from '../../../store/index';
 
 interface CartItemData{
+    opid:string
     product_id:number|null
     service_id:number|null
     quantity:number
@@ -13,20 +14,10 @@ interface CartItemData{
 
 export async function POST(req:Request){
     const data:CartItemData = await req.json();
-    const cart = await db.cart.findUnique({where:{id:1}})
-
-    const isAvailable = await db.cartItems.findMany({
-        where:{
-            OR:[
-                {product_id:data.product_id},
-                {service_id:data.service_id}
-            ]
-        }
-    })
+    let cart;
+    cart = await db.cart.findUnique({where:{operator_id:data.opid}})
+    console.log(cart);
     
-    if(isAvailable.length > 0){
-        return Response.json({msg:"product aldready exists"})
-    }
     let price;
     if(data.product_id){
         const product = await getProductById(data.product_id)
@@ -36,10 +27,19 @@ export async function POST(req:Request){
         const service = await getServiceById(data.service_id)
         price = service?.charge
     }
+    if(!cart){
+        cart = await db.cart.create({
+            data:{
+                operator_id:data.opid,
+                total_amount:0
+            }
+        })
+        console.log(cart);
+    }
     if(cart){
         await db.cartItems.create({
             data:{
-                cartId:1,
+                cartId:cart.id,
                 product_id:data.product_id,
                 quantity:data.quantity,
                 service_id:data.service_id,
@@ -48,7 +48,7 @@ export async function POST(req:Request){
         })
         await db.cart.update({
             where:{
-                id:1,
+                operator_id:data.opid,
             },
             data:{
                 total_amount: cart.total_amount + (price! * data.quantity)
@@ -59,27 +59,31 @@ export async function POST(req:Request){
     return Response.json({msg:"cartID not found"})
 }
 
-export async function GET(req:Request){
-    const data = await db.cart.findUnique({
-            where:{
-                id:1
-            },
-            select:{
-                total_amount:true,
-                items:{
-                    select:{
-                        id:true,
-                        product:true,
-                        service:true,
-                        quantity:true,
-                        total_amount:true
-                    }
-                }
-            },
-        }
-    )
-    return Response.json(data)
-}
+// export async function GET(
+//     req:Request,
+//     {params}:{params:{id:string}}
+// ){
+//     console.log(params.id);
+//     const data = await db.cart.findUnique({
+//             where:{
+//                 operator_id:params.id
+//             },
+//             select:{
+//                 total_amount:true,
+//                 items:{
+//                     select:{
+//                         id:true,
+//                         product:true,
+//                         service:true,
+//                         quantity:true,
+//                         total_amount:true
+//                     }
+//                 }
+//             },
+//         }
+//     )
+//     return Response.json(data)
+// }
 
 interface updateQuantity{
     cartItemId:number|null
@@ -113,10 +117,13 @@ export async function PUT(req:Request){
 }
 
 export async function DELETE(req:Request){
-    const res = await db.cartItems.deleteMany({})
-    await db.cart.update({where:{id:1},data:{total_amount:0}})
-    if(res){
-        return Response.json({msg:"success"})
+    const data:CartItemData = await req.json()
+    const cart = await db.cart.update({where:{operator_id:data.opid},data:{total_amount:0}})
+    if(cart){
+        const res = await db.cartItems.deleteMany({where:{cartId:cart.id}})
+        if(res){
+            return Response.json({msg:"success"})
+        }
     }
     return Response.json({msg:"cartitem not found"})
 }

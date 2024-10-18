@@ -7,14 +7,32 @@ import {
   PaymentElement,
 } from "@stripe/react-stripe-js";
 import convertToSubcurrency from "@/lib/convertToSubCurrency";
+import { CartDTO, UserDTO } from "@/interfaces";
+import { useAtomValue } from "jotai";
+import { userID } from "@/store";
+import { useRouter } from "next/navigation";
 
 
-const CheckoutPage = ({ amount }: { amount: number }) => {
+const CheckoutPage = ({ amount,user }: { amount: number,user:UserDTO|undefined}) => {
   const stripe = useStripe();
   const elements = useElements();
   const [errorMessage, setErrorMessage] = useState<string>();
   const [clientSecret, setClientSecret] = useState("");
   const [loading, setLoading] = useState(false);
+  const [cart,setCart] = useState<any>()
+  const opid = useAtomValue(userID)
+  const router = useRouter()
+
+  useEffect(()=>{
+    fetch(`/api/getcart/${opid}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => setCart(data));
+  },[])
 
   useEffect(() => {
     fetch("/api/create-payment-intent", {
@@ -27,6 +45,17 @@ const CheckoutPage = ({ amount }: { amount: number }) => {
       .then((res) => res.json())
       .then((data) => setClientSecret(data.clientSecret));
   }, [amount]);
+
+  const success=async()=>{
+    const userData = {"uid":user?.id,"opid":opid,"transaction_type":"card"}
+    await fetch("/api/order",{
+      method:"POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body:JSON.stringify({...userData,...cart})
+    })
+  }
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -48,9 +77,17 @@ const CheckoutPage = ({ amount }: { amount: number }) => {
       elements,
       clientSecret,
       confirmParams: {
-        return_url: `https://smartphoneservice.vercel.app/dashboard/payment-success?amount=${amount}`,
+        return_url: `http://localhost:3000/dashboard/payment-success?amount=${amount}`,
       },
+      redirect:"if_required"
     });
+
+    const {paymentIntent} = await stripe.confirmCardPayment(clientSecret)
+
+    if(paymentIntent?.status === "succeeded"){
+      success()
+      router.push("/dashboard/payment-success")
+    }
 
     if (error) {
       // This point is only reached if there's an immediate error when

@@ -1,9 +1,9 @@
 export interface CartItem{
-    product_id? :number | null
+    product_id? :number | undefined
     name?:string
     quantity?:number
     category?:string
-    service_id?:number | null
+    service_id?:number | undefined
     total_amount?:number
 }
 
@@ -13,6 +13,7 @@ export interface CartListInterface{
 }
 
 export interface UserDTO{
+    id:string
     firstname:string
     lastname:string
     email:string

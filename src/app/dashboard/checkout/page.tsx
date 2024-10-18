@@ -6,14 +6,13 @@ import * as React from "react";
 import convertToSubcurrency from "@/lib/convertToSubCurrency";
 import CheckoutPage from "@/components/checkOutComponent";
 import { useAtom, useAtomValue } from "jotai";
-import { cartList } from "@/store";
+import { cartList, userID } from "@/store";
 import {
   Box,
   RadioCards,
   Flex,
   Text,
   TextField,
-  Button,
   Heading,
   Table,
 } from "@radix-ui/themes";
@@ -33,6 +32,8 @@ export default function CheckOut() {
   const [cartlist,setCartList] = React.useState<CartDTO>()
   const [cartLoader,setCartLoader] = React.useState<boolean>(true)
 
+  const user = useAtomValue(userID)
+
   if(typeof window !== "undefined"){
     window.addEventListener("click",function(e){
       if(this.document.getElementById("searchbar")?.contains(e.target as Node)){
@@ -44,7 +45,7 @@ export default function CheckOut() {
   }
 
   React.useEffect(()=>{
-      fetch("/api/cart",{
+      fetch(`/api/cart/${user}`,{
         method:"GET",
         headers:{
           "Content-Type": "application/json",
@@ -80,7 +81,6 @@ export default function CheckOut() {
     )
   }
 
-  // const list = useAtomValue(cartList);
   const amount = cartlist?.total_amount == undefined ? 1 : cartlist?.total_amount;
   return (
     <>
@@ -192,7 +192,7 @@ export default function CheckOut() {
                     currency: "inr",
                   }}
                 >
-                  <CheckoutPage amount={amount} />
+                  <CheckoutPage amount={amount} user={selectedUser} />
                 </Elements>
               </Box>
             </>

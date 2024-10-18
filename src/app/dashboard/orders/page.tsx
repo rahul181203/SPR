@@ -22,8 +22,8 @@ export default async function Orders(){
                         <Table.ColumnHeaderCell>Type</Table.ColumnHeaderCell>
                         <Table.ColumnHeaderCell>no.of.units</Table.ColumnHeaderCell>
                         <Table.ColumnHeaderCell>Cost</Table.ColumnHeaderCell>
-                        <Table.ColumnHeaderCell>Referal</Table.ColumnHeaderCell>
-                        <Table.ColumnHeaderCell>Discount</Table.ColumnHeaderCell>
+                        {/* <Table.ColumnHeaderCell>Referal</Table.ColumnHeaderCell> */}
+                        {/* <Table.ColumnHeaderCell>Discount</Table.ColumnHeaderCell> */}
                         <Table.ColumnHeaderCell>tax</Table.ColumnHeaderCell>
                         <Table.ColumnHeaderCell>Total Bill</Table.ColumnHeaderCell>
                     </Table.Row>
@@ -92,8 +92,8 @@ export default async function Orders(){
                                         })
                                     }
                                     </Table.Cell >
-                                    <Table.Cell justify={'center'}></Table.Cell>
-                                    <Table.Cell justify={'center'}></Table.Cell>
+                                    {/* <Table.Cell justify={'center'}></Table.Cell> */}
+                                    {/* <Table.Cell justify={'center'}></Table.Cell> */}
                                     <Table.Cell justify={'center'}>${o.tax}</Table.Cell>
                                     <Table.Cell justify={'center'}>${o.total_amount}</Table.Cell>
                                 </Table.Row>
