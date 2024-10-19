@@ -52,7 +52,7 @@ export async function POST(req:Request){
     const order = await db.orders.findUnique({where:{id:res.id},include:{customer:true,items:{include:{product:true,service:true}}}})
     console.log(order);
     const html = await compile(<InvoiceDoc details={order}/>)
-    SendMail("Invoice",order?.customer.email!,html)
+    await SendMail("Invoice",order?.customer.email!,html)
     // return Response.json(html)
     return Response.json(data)
 }
