@@ -52,6 +52,9 @@ export const getAllProducts=async(search:string)=>{
                 contains:search,
                 mode:'insensitive'
             }
+        },
+        orderBy:{
+            id:"asc"
         }
     })
     

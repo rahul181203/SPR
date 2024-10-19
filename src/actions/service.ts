@@ -40,6 +40,8 @@ export const getAllServices=async(search:string)=>{
                 contains:search,
                 mode:'insensitive'
             }
+        },orderBy:{
+            id:"asc"
         }
     })
     return services;

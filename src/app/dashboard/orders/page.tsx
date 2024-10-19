@@ -13,19 +13,19 @@ export default async function Orders(){
             <Table.Root className=" overflow-x-scroll" >
                 <Table.Header>
                     <Table.Row>
-                        <Table.ColumnHeaderCell>S.NO</Table.ColumnHeaderCell>
-                        <Table.ColumnHeaderCell>Order ID</Table.ColumnHeaderCell>
-                        <Table.ColumnHeaderCell>Customer Name</Table.ColumnHeaderCell>
-                        <Table.ColumnHeaderCell>Customer Mobile Num</Table.ColumnHeaderCell>
-                        <Table.ColumnHeaderCell>Item Name</Table.ColumnHeaderCell>
-                        <Table.ColumnHeaderCell>Category</Table.ColumnHeaderCell>
-                        <Table.ColumnHeaderCell>Type</Table.ColumnHeaderCell>
-                        <Table.ColumnHeaderCell>no.of.units</Table.ColumnHeaderCell>
-                        <Table.ColumnHeaderCell>Cost</Table.ColumnHeaderCell>
-                        {/* <Table.ColumnHeaderCell>Referal</Table.ColumnHeaderCell> */}
-                        {/* <Table.ColumnHeaderCell>Discount</Table.ColumnHeaderCell> */}
-                        <Table.ColumnHeaderCell>tax</Table.ColumnHeaderCell>
-                        <Table.ColumnHeaderCell>Total Bill</Table.ColumnHeaderCell>
+                        {/* <Table.ColumnHeaderCell justify={'center'} >S.NO</Table.ColumnHeaderCell> */}
+                        <Table.ColumnHeaderCell justify={'center'} >Order ID</Table.ColumnHeaderCell>
+                        <Table.ColumnHeaderCell justify={'center'} >Customer Name</Table.ColumnHeaderCell>
+                        <Table.ColumnHeaderCell justify={'center'} >Customer Mobile Num</Table.ColumnHeaderCell>
+                        <Table.ColumnHeaderCell justify={'center'} >Item Name</Table.ColumnHeaderCell>
+                        <Table.ColumnHeaderCell justify={'center'} >Category</Table.ColumnHeaderCell>
+                        <Table.ColumnHeaderCell justify={'center'} >Type</Table.ColumnHeaderCell>
+                        <Table.ColumnHeaderCell justify={'center'} >no.of.units</Table.ColumnHeaderCell>
+                        <Table.ColumnHeaderCell justify={'center'} >Cost</Table.ColumnHeaderCell>
+                        {/* <Table.ColumnHeader justify={'center'} Cell>Referal</Table.ColumnHeaderCell> */}
+                        {/* <Table.ColumnHeader justify={'center'} Cell>Discount</Table.ColumnHeaderCell> */}
+                        {/* <Table.ColumnHeader justify={'center'} Cell>tax</Table.ColumnHeaderCell> */}
+                        <Table.ColumnHeaderCell justify={'center'} >Total Bill</Table.ColumnHeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -33,22 +33,22 @@ export default async function Orders(){
                         orders.map((o,i)=>{
                             return <>
                                 <Table.Row key={i} align={'center'} >
-                                    <Table.RowHeaderCell>{i+1}</Table.RowHeaderCell>
+                                    {/* <Table.RowHeaderCell>{i+1}</Table.RowHeaderCell> */}
                                     <Table.Cell justify={'center'}>{o.id}</Table.Cell>
                                     <Table.Cell justify={'center'}>{o.customer.firstname}</Table.Cell>
                                     <Table.Cell justify={'center'}>{o.customer.mobilenumber}</Table.Cell>
-                                    <Table.Cell justify={'center'}>
+                                    <Table.Cell >
                                     {
                                         o.items.map((item,idx)=>{
                                             return <>
-                                            <Table.Row  key={idx}>
+                                            <Table.Row key={idx}>
                                                 <Table.Cell className="shadow-none">{item.product?.name || item.service?.name}</Table.Cell>
                                             </Table.Row>
                                             </>
                                         })
                                     }
                                     </Table.Cell>
-                                    <Table.Cell justify={'center'}>
+                                    <Table.Cell >
                                     {
                                         o.items.map((item,idx)=>{
                                             return <>
@@ -59,7 +59,7 @@ export default async function Orders(){
                                         })
                                     }
                                     </Table.Cell>
-                                    <Table.Cell justify={'center'}>
+                                    <Table.Cell >
                                     {
                                         o.items.map((item,idx)=>{
                                             return <>
@@ -94,7 +94,7 @@ export default async function Orders(){
                                     </Table.Cell >
                                     {/* <Table.Cell justify={'center'}></Table.Cell> */}
                                     {/* <Table.Cell justify={'center'}></Table.Cell> */}
-                                    <Table.Cell justify={'center'}>${o.tax}</Table.Cell>
+                                    {/* <Table.Cell justify={'center'}>${o.tax}</Table.Cell> */}
                                     <Table.Cell justify={'center'}>${o.total_amount}</Table.Cell>
                                 </Table.Row>
                             </>

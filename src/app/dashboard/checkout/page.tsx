@@ -53,7 +53,7 @@ export default function CheckOut() {
       })
       .then((res)=>res.json())
       .then((d)=>{setCartList(d);setCartLoader(false)})
-  },[])
+  },[user])
 
   React.useEffect(() => {
     let timeout = setTimeout(() => {

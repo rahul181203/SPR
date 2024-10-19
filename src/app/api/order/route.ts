@@ -14,11 +14,22 @@ interface itemDescription{
     total_amount:number
 }
 
+import { getOrders } from "@/actions/orders"
 import { db } from "@/lib/prisma"
 
 export async function POST(req:Request){
     const data:OrderData = await req.json()
     console.log(data);
+
+    const updatePromises = data.items
+        .filter(item => item.product_id !== null)  // Filter out non-product items
+        .map(item => db.product.update({
+        where: { id: item.product_id },
+        data:{units_sold:{increment:item.quantity},total_units:{decrement:item.quantity}}
+        }));
+    
+    const da = await db.$transaction(updatePromises)
+    console.log(da);
     
     await db.orders.create({
         data:{
@@ -35,5 +46,10 @@ export async function POST(req:Request){
         }
     })
 
+    return Response.json(data)
+}
+
+export async function GET(req:Request){
+    const data = await getOrders();
     return Response.json(data)
 }

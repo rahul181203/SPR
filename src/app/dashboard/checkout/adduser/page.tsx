@@ -20,7 +20,6 @@ export default function AddProduct(){
         gender:""
     })
 
-
     const handleSubmit=()=>{
         setLoading(true)
         console.log(user);

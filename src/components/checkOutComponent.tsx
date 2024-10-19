@@ -32,7 +32,7 @@ const CheckoutPage = ({ amount,user }: { amount: number,user:UserDTO|undefined})
     })
       .then((res) => res.json())
       .then((data) => setCart(data));
-  },[])
+  },[opid])
 
   useEffect(() => {
     fetch("/api/create-payment-intent", {

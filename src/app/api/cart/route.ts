@@ -4,29 +4,28 @@ import { getServiceById } from "@/actions/service";
 import { db } from "@/lib/prisma";
 import { da } from "@faker-js/faker";
 import { cartList } from '../../../store/index';
+import { data } from '../../../components/charts/piechart';
 
 interface CartItemData{
     opid:string
-    product_id:number|null
-    service_id:number|null
-    quantity:number
+    items:CartItems[]
 }
+
+interface CartItems{
+    product_id:number | undefined,
+    service_id:number | undefined,
+    name:string,
+    quantity:number,
+    total_amount:number
+}
+
 
 export async function POST(req:Request){
     const data:CartItemData = await req.json();
     let cart;
     cart = await db.cart.findUnique({where:{operator_id:data.opid}})
     console.log(cart);
-    
-    let price;
-    if(data.product_id){
-        const product = await getProductById(data.product_id)
-        price = product?.selling_price
-    }
-    if(data.service_id){
-        const service = await getServiceById(data.service_id)
-        price = service?.charge
-    }
+
     if(!cart){
         cart = await db.cart.create({
             data:{
@@ -36,27 +35,55 @@ export async function POST(req:Request){
         })
         console.log(cart);
     }
-    if(cart){
-        await db.cartItems.create({
-            data:{
-                cartId:cart.id,
-                product_id:data.product_id,
-                quantity:data.quantity,
-                service_id:data.service_id,
-                total_amount:(price! * data.quantity)
+
+     const createCart = data.items
+        .map(async(item) => {
+            let product,stockAvailable;
+            if(item.product_id){
+                product = await db.product.findUnique(
+                    {
+                        where:{
+                            id:item.product_id
+                        }
+                    }
+                )
             }
-        })
-        await db.cart.update({
-            where:{
-                operator_id:data.opid,
-            },
-            data:{
-                total_amount: cart.total_amount + (price! * data.quantity)
+
+            if(product){
+                if(product.total_units >= item.quantity){
+                    stockAvailable = true
+                }else{
+                    stockAvailable = false;
+                    throw new Error("Item Not Available in stock")
+                }
             }
-        })
-        return Response.json({msg:"added"})
-    }
-    return Response.json({msg:"cartID not found"})
+            if(item.service_id){
+                stockAvailable = true
+            }
+
+            if(stockAvailable){
+                return await db.cart.update({
+                    where:{
+                        operator_id:data.opid
+                    },
+                    data:{
+                        items:{
+                            create:{
+                                product_id:item.product_id,
+                                service_id:item.service_id,
+                                quantity:item.quantity,
+                                total_amount:item.total_amount
+                            }
+                        },
+                        total_amount:{increment:item.total_amount}
+                    }
+                })
+            }
+        });
+    
+        const res = await Promise.all(createCart)
+        console.log(res);
+    return Response.json({res})
 }
 
 // export async function GET(

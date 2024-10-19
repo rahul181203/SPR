@@ -29,15 +29,22 @@ export default function Cart() {
   const NextSection=async()=>{
     setLoading(true)
     await fetch("/api/cart",{method:"DELETE",body:JSON.stringify({"opid":user})})
-    for(var i=0;i<list.items.length;i++){
-      await fetch("/api/cart",{
-        method:"POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body:(list.items[i].product_id) ? JSON.stringify({"opid":user,"product_id":list.items[i].product_id,"quantity":list.items[i].quantity}):JSON.stringify({"opid":user,"service_id":list.items[i].service_id,"quantity":list.items[i].quantity})
-      })
-    }
+    // for(var i=0;i<list.items.length;i++){
+    //   await fetch("/api/cart",{
+    //     method:"POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body:(list.items[i].product_id) ? JSON.stringify({"opid":user,"product_id":list.items[i].product_id,"quantity":list.items[i].quantity}):JSON.stringify({"opid":user,"service_id":list.items[i].service_id,"quantity":list.items[i].quantity})
+    //   })
+    // }
+    await fetch("/api/cart",{
+      method:"POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body:JSON.stringify({...{"opid":user},...list})
+    })
     router.push("/dashboard/checkout")
   }
 

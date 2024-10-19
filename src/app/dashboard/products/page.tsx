@@ -43,7 +43,7 @@ export default async function Products({
             <Table.ColumnHeaderCell>Margin</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell>Selling Price</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell>Units Sold</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>Delete</Table.ColumnHeaderCell>
+            {/* <Table.ColumnHeaderCell>Delete</Table.ColumnHeaderCell> */}
             <Table.ColumnHeaderCell>Add to List</Table.ColumnHeaderCell>
           </Table.Row>
         </Table.Header>
@@ -61,12 +61,15 @@ export default async function Products({
                     <Table.Cell>{"$" + i.cost_price}</Table.Cell>
                     <Table.Cell>{"$" + i.margin}</Table.Cell>
                     <Table.Cell>{"$" + i.selling_price}</Table.Cell>
-                    <Table.Cell>{i.units_sold && "0"}</Table.Cell>
-                    <Table.Cell>
+                    <Table.Cell>{i.units_sold}</Table.Cell>
+                    {/* <Table.Cell>
                       <DeleteButton id={i.id} method={deleteProduct} />
-                    </Table.Cell>
+                    </Table.Cell> */}
                     <Table.Cell>
-                      <AddCart id={i.id} type={"product"} />
+                      {
+                        (i.total_units === 0) ? <Button disabled>Not Available</Button>:<AddCart id={i.id} type={"product"} />
+                      }
+                        
                     </Table.Cell>
                   </Table.Row>
                 </>

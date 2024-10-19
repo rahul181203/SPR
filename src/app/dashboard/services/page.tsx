@@ -36,7 +36,7 @@ export default async function Services({
             <Table.ColumnHeaderCell>Service Name</Table.ColumnHeaderCell>
             {/* <Table.ColumnHeaderCell>Category</Table.ColumnHeaderCell> */}
             <Table.ColumnHeaderCell>Service Charge</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>Delete</Table.ColumnHeaderCell>
+            {/* <Table.ColumnHeaderCell>Delete</Table.ColumnHeaderCell> */}
             <Table.ColumnHeaderCell>Add to List</Table.ColumnHeaderCell>
           </Table.Row>
         </Table.Header>
@@ -50,9 +50,9 @@ export default async function Services({
                   <Table.Cell>{i.name}</Table.Cell>
                   {/* <Table.Cell>{i.name}</Table.Cell> */}
                   <Table.Cell>{"$" + i.charge}</Table.Cell>
-                  <Table.Cell>
+                  {/* <Table.Cell>
                     <DeleteButton id={i.id} method={deleteService} />
-                  </Table.Cell>
+                  </Table.Cell> */}
                   <Table.Cell>
                     <AddCart id={i.id} type="service" />
                   </Table.Cell>

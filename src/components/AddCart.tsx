@@ -23,6 +23,7 @@ export default function AddCart({id,type}:{id:number,type:string}){
         }
         if(i === prod.items.length)
         getProductById(id).then((d)=>{
+            (d?.total_units! > 1) ?
             addProd({items:[...prod.items,{
                 product_id:d?.id || undefined,
                 quantity:1,
@@ -31,7 +32,7 @@ export default function AddCart({id,type}:{id:number,type:string}){
                 category:d?.category,
                 total_amount:d?.selling_price
             }],
-            totalPrice:prod.totalPrice+d?.selling_price!})
+            totalPrice:prod.totalPrice+d?.selling_price!}):window.alert("Product unavailable")
         })
     }
 
