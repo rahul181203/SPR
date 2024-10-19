@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "test":"nodemon src/socket.js",
+    "test": "nodemon src/socket.js",
     "start": "next start",
     "lint": "next lint",
     "postinstall": "npx prisma generate"
@@ -13,6 +13,8 @@
   "dependencies": {
     "@auth/prisma-adapter": "^2.4.1",
     "@faker-js/faker": "^8.4.1",
+    "@fileforge/client": "^0.1.18",
+    "@fileforge/react-print": "^0.1.150",
     "@hookform/resolvers": "^3.6.0",
     "@langchain/community": "^0.3.4",
     "@langchain/core": "^0.3.9",
@@ -28,6 +30,7 @@
     "bcryptjs": "^2.4.3",
     "chart.js": "^4.4.3",
     "faker": "^6.6.6",
+    "fs": "^0.0.1-security",
     "jotai": "^2.8.4",
     "jotai-devtools": "^0.10.0",
     "langchain": "^0.3.2",

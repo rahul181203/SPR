@@ -9,6 +9,8 @@ import DeleteButton from "@/components/DeleteButton";
 import AddCart from "@/components/AddCart";
 import { GoToCartButton } from "@/components/CartButton";
 import * as React from "react"
+import { compile } from "@fileforge/react-print";
+import { InvoiceDoc } from "@/components/invoiceDoc";
 
 export default async function Products({
   searchParams,

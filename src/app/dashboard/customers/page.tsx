@@ -67,7 +67,7 @@ export default function Customers() {
                 <Table.Cell>{i.lastname}</Table.Cell>
                 <Table.Cell>{i.email}</Table.Cell>
                 <Table.Cell>{i.mobilenumber}</Table.Cell>
-                <Table.Cell>{idx}</Table.Cell>
+                <Table.Cell></Table.Cell>
                 <Table.Cell>{i.gender}</Table.Cell>
                 <Table.Cell>{i.address}</Table.Cell>
               </Table.Row>

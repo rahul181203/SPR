@@ -15,7 +15,10 @@ interface itemDescription{
 }
 
 import { getOrders } from "@/actions/orders"
+import { InvoiceDoc } from "@/components/invoiceDoc"
 import { db } from "@/lib/prisma"
+import { SendMail } from "@/services/emailService"
+import { compile } from "@fileforge/react-print"
 
 export async function POST(req:Request){
     const data:OrderData = await req.json()
@@ -31,7 +34,7 @@ export async function POST(req:Request){
     const da = await db.$transaction(updatePromises)
     console.log(da);
     
-    await db.orders.create({
+    const res = await db.orders.create({
         data:{
             items:{
                 createMany:{
@@ -46,6 +49,11 @@ export async function POST(req:Request){
         }
     })
 
+    const order = await db.orders.findUnique({where:{id:res.id},include:{customer:true,items:{include:{product:true,service:true}}}})
+    console.log(order);
+    const html = await compile(<InvoiceDoc details={order}/>)
+    SendMail("Invoice",order?.customer.email!,html)
+    // return Response.json(html)
     return Response.json(data)
 }
 

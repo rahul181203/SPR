@@ -8,7 +8,7 @@ export async function POST(req:Request){
         lastname:data.lastname,
         email:data.email,
         mobilenumber:data.mobilenumber,
-        gender:data.mobilenumber
+        gender:data.gender
     }})
     return Response.json({msg:"user added"})
 }
