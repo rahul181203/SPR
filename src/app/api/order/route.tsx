@@ -14,6 +14,8 @@ interface itemDescription{
     total_amount:number
 }
 
+export const dynamic = "force-dynamic";
+
 import { getOrders } from "@/actions/orders"
 import { InvoiceDoc } from "@/components/invoiceDoc"
 import { db } from "@/lib/prisma"

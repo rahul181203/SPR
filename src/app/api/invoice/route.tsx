@@ -3,7 +3,6 @@ import { compile } from "@fileforge/react-print";
 import React from "react";
 import { SendMail } from '../../../services/emailService/index';
 
-export const dynamic = "force-dynamic";
 
 export async function POST(req:Request){
     const data = await req.json()

@@ -7,21 +7,39 @@ import { ChatOption } from "@/components/chatOption";
 import { ReaderIcon } from "@radix-ui/react-icons";
 import { Box, Heading, Text, Flex, Grid } from "@radix-ui/themes";
 import * as React from "react"
+import Loading from "../loading";
 
 
 
 export default function Data() {
-  
+  const [data,setData] = React.useState<any>()
+  const [loading,setLoading] = React.useState<boolean>(true)
+
+  React.useEffect(()=>{
+    fetch("/api/analytics/top4",{
+      method:"GET",
+      headers:{
+        "content-type":"application/json"
+      }
+    }).then((res)=>res.json())
+    .then((d)=>{setData(d);setLoading(false)})
+
+  },[])
+
+  if(loading){
+    return <Loading/>
+  }
+
   return (
     <>
       <Flex align={'center'} justify={'between'}>
         <Box p={"4"} className="bg-slate-800 w-1/5 inline-block rounded-lg flex-col gap-2">
           <Text>Total Sales</Text>
-          <Heading>$32</Heading>
+          <Heading>${data.totalAmount!}</Heading>
         </Box>
         <Box p={"4"} className="bg-slate-800 w-1/5 inline-block rounded-lg flex-col gap-2">
           <Text>New Customers</Text>
-          <Heading>5</Heading>
+          <Heading>{data.newCustomers!}</Heading>
         </Box>
         <Box p={"4"} className="bg-slate-800 w-1/5 inline-block rounded-lg flex-col gap-2">
           <Text>Previous Day Sales</Text>
@@ -29,7 +47,7 @@ export default function Data() {
         </Box>
         <Box p={"4"} className="bg-slate-800 w-1/5 inline-block rounded-lg flex-col gap-2">
           <Text>Most Sold Item</Text>
-          <Heading>asdfg</Heading>
+          <Heading>{data.topSelling!}</Heading>
         </Box>
       </Flex>
       <Box mt={'4'} ></Box>

@@ -10,6 +10,8 @@ import {
   } from 'chart.js';
   import { Line } from 'react-chartjs-2';
 import {faker} from "@faker-js/faker"
+import { useEffect, useState } from 'react';
+import Loading from '@/app/loading';
   
   ChartJS.register(
     CategoryScale,
@@ -29,32 +31,59 @@ import {faker} from "@faker-js/faker"
       },
       title: {
         display: true,
-        text: 'Test - Line Chart',
+        text: 'Per Date Analysis',
       },
     },
   };
   
-  const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-  
-  export const data = {
-    labels,
-    datasets: [
-      {
-        label: 'Dataset 1',
-        data: labels.map(() => faker.number.int({ min: -1000, max: 1000 })),
-        borderColor: 'rgb(255, 99, 132)',
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
-      },
-      {
-        label: 'Dataset 2',
-        data: labels.map(() => faker.number.int({ min: -1000, max: 1000 })),
-        borderColor: 'rgb(53, 162, 235)',
-        backgroundColor: 'rgba(53, 162, 235, 0.5)',
-      },
-    ],
-  };
-  
+
+  interface transDTO{
+    date:string,
+    order:number,
+    user:number
+  }
+
   export default function LineChart() {
-    return <Line options={options} data={data} />;
+
+    const [trans,setTrans] = useState<transDTO[]>([])
+    const [loading,setLoading] = useState<boolean>(true)
+
+    useEffect(()=>{
+      fetch("/api/analytics/orderbydate",{
+        method:"GET",
+        headers:{
+          "content-type":"application/json"
+        }
+      }).then((res)=>res.json())
+      .then((d)=>{setTrans(d);console.log(data);setLoading(false)})
+    })
+    
+
+    const labels = trans.map(item => item.date)
+    const data = {
+      labels,
+      datasets: [
+        {
+          label: 'Orders Count',
+          data: trans.map(item => item.order),
+          borderColor: 'rgb(255, 99, 132)',
+          backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        },
+        {
+          label: 'User Count',
+          data: trans.map(item => item.user),
+          borderColor: 'rgb(53, 162, 235)',
+        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+        }
+      ],
+    };
+    if(loading){
+      return <>
+        <Loading/>
+      </>
+    }
+    return (
+      <Line options={options} data={data} />
+    );
   }
   
