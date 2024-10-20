@@ -4,7 +4,6 @@ import { getServiceById } from "@/actions/service";
 import { db } from "@/lib/prisma";
 import { da } from "@faker-js/faker";
 import { cartList } from '../../../store/index';
-import { data } from '../../../components/charts/piechart';
 
 interface CartItemData{
     opid:string
