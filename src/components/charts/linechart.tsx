@@ -55,8 +55,8 @@ import Loading from '@/app/loading';
           "content-type":"application/json"
         }
       }).then((res)=>res.json())
-      .then((d)=>{setTrans(d);console.log(data);setLoading(false)})
-    })
+      .then((d)=>{setTrans(d);setLoading(false)})
+    },[])
     
 
     const labels = trans.map(item => item.date)

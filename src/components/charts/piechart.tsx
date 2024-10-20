@@ -41,8 +41,8 @@ export default function PieChart() {
           "content-type":"application/json"
         }
       }).then((res)=>res.json())
-      .then((d)=>{setProductsData(d.productsCount);console.log(data);setLoading(false)})
-    })
+      .then((d)=>{setProductsData(d.productsCount);setLoading(false)})
+    },[])
 
   const labels = productsData.map(item => item.category)
   const data = {
