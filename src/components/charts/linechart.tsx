@@ -53,7 +53,7 @@ import Loading from '@/app/loading';
         method:"GET",
         headers:{
           "content-type":"application/json"
-        }
+        },next:{revalidate:60}
       }).then((res)=>res.json())
       .then((d)=>{setTrans(d);setLoading(false)})
     },[])

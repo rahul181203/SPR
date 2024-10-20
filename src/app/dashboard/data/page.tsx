@@ -20,7 +20,7 @@ export default function Data() {
       method:"GET",
       headers:{
         "content-type":"application/json"
-      }
+      },next:{revalidate:60}
     }).then((res)=>res.json())
     .then((d)=>{setData(d);setLoading(false)})
 

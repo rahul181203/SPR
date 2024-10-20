@@ -39,7 +39,7 @@ export default function PieChart() {
         method:"GET",
         headers:{
           "content-type":"application/json"
-        }
+        },next:{revalidate:60}
       }).then((res)=>res.json())
       .then((d)=>{setProductsData(d.productsCount);setLoading(false)})
     },[])

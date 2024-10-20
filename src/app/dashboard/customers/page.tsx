@@ -19,7 +19,7 @@ export default function Customers() {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-        },
+        },next:{revalidate:60}
       })
         .then((res) => res.json())
         .then((data) => {
