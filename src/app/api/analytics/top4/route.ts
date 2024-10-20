@@ -7,7 +7,7 @@ declare global {
 }
 
 BigInt.prototype.toJSON = function () { return Number(this) }
-
+export const dynamic = 'force-dynamic';
 export async function GET(){
     let lastDay = Date.now() - (24 * 60 * 60 * 1000)
     const newDate = new Date(lastDay).toISOString()

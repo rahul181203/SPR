@@ -1,5 +1,7 @@
 import { db } from "@/lib/prisma";
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(){
     let lastDay = Date.now() - (24 * 60 * 60 * 1000)
     const newDate = new Date(lastDay).toISOString()

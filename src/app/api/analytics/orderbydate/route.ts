@@ -8,6 +8,8 @@ declare global {
 
 BigInt.prototype.toJSON = function () { return Number(this) }
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
 
     const res = await db.$queryRaw`
