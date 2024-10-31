@@ -45,6 +45,6 @@ export async function GET(){
         }
     })
 
-    return Response.json({totalAmount:total_amount._sum.total_amount,newCustomers:newCustomers._count.id,topSelling:data[0].name})
+    return Response.json({totalAmount:total_amount._sum.total_amount,newCustomers:newCustomers._count.id,topSelling:data[0]?.name})
 
 }

@@ -45,6 +45,7 @@ export default function Cart() {
       },
       body:JSON.stringify({...{"opid":user},...list})
     })
+    setList({items:[],totalPrice:0})
     router.push("/dashboard/checkout")
   }
 

@@ -11,6 +11,7 @@ import { CartDTO, UserDTO } from "@/interfaces";
 import { useAtomValue } from "jotai";
 import { userID } from "@/store";
 import { useRouter } from "next/navigation";
+import Loading from "@/app/loading";
 
 
 const CheckoutPage = ({ amount,user }: { amount: number,user:UserDTO|undefined}) => {
@@ -22,6 +23,8 @@ const CheckoutPage = ({ amount,user }: { amount: number,user:UserDTO|undefined})
   const [cart,setCart] = useState<any>()
   const opid = useAtomValue(userID)
   const router = useRouter()
+  const [pageloader, setPageLoader] = useState(false);
+
 
   useEffect(()=>{
     fetch(`/api/getcart/${opid}`, {
@@ -47,6 +50,7 @@ const CheckoutPage = ({ amount,user }: { amount: number,user:UserDTO|undefined})
   }, [amount]);
 
   const success=async()=>{
+    setPageLoader(true)
     const userData = {"uid":user?.id,"opid":opid,"transaction_type":"card"}
     await fetch("/api/order",{
       method:"POST",
@@ -54,7 +58,8 @@ const CheckoutPage = ({ amount,user }: { amount: number,user:UserDTO|undefined})
         "Content-Type": "application/json",
       },
       body:JSON.stringify({...userData,...cart})
-    })
+    }).then((res)=>res.json())
+    .then(()=>{setPageLoader(false);router.push("/dashboard/payment-success")})
   }
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -85,8 +90,8 @@ const CheckoutPage = ({ amount,user }: { amount: number,user:UserDTO|undefined})
     const {paymentIntent} = await stripe.confirmCardPayment(clientSecret)
 
     if(paymentIntent?.status === "succeeded"){
+      
       success()
-      router.push("/dashboard/payment-success")
     }
 
     if (error) {
@@ -114,6 +119,10 @@ const CheckoutPage = ({ amount,user }: { amount: number,user:UserDTO|undefined})
         </div>
       </div>
     );
+  }
+
+  if(pageloader){
+    return <Loading/>
   }
 
   return (

@@ -23,7 +23,7 @@ export default function AddCart({id,type}:{id:number,type:string}){
         }
         if(i === prod.items.length)
         getProductById(id).then((d)=>{
-            (d?.total_units! > 1) ?
+            (d?.total_units! > 0) ?
             addProd({items:[...prod.items,{
                 product_id:d?.id || undefined,
                 quantity:1,

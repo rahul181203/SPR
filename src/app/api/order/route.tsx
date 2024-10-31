@@ -17,6 +17,7 @@ interface itemDescription{
 export const dynamic = "force-dynamic";
 
 import { getOrders } from "@/actions/orders"
+import { sendmsg } from "@/actions/twilio/sendsms";
 import { InvoiceDoc } from "@/components/invoiceDoc"
 import { db } from "@/lib/prisma"
 import { SendMail } from "@/services/emailService"
@@ -55,7 +56,23 @@ export async function POST(req:Request){
     console.log(order);
     const html = await compile(<InvoiceDoc details={order}/>)
     await SendMail("Invoice",order?.customer.email!,html)
-    // return Response.json(html)
+    // await sendmsg(order?.customer.mobilenumber!,`
+    //     Dear customer ${order?.customer.firstname} ${order?.customer.lastname},
+    //     your order details are as follows:
+    //     order id: ${order?.id}
+    //     items:
+    //     ${order?.items.map((i,v)=>
+    //         `
+    //             name: ${(i.product?.name)?i.product.name:i.service?.name}
+    //             quantity: ${i.quantity} 
+    //             totalAmount:${i.total_amount}
+    //         `
+    //     )}
+
+    //     Transaction Type:${order?.transaction_type}
+    //     Net Amount Paid:${order?.total_amount}
+    //     Thank you for shopping with us.
+    //     `)
     return Response.json(data)
 }
 
