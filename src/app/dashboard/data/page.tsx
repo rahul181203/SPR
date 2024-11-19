@@ -11,6 +11,9 @@ import Loading from "../loading";
 import TransactionPie from "@/components/charts/transactionPie";
 import CategoryTransaction from "@/components/charts/categoryTrasactionChart";
 import GenderChart from "@/components/charts/genderChart";
+import ServiceChart from "@/components/charts/serviceChart";
+import LineChartPS from "@/components/charts/linechartPS";
+import PerDaySales from "@/components/charts/priceperday";
 
 
 
@@ -63,6 +66,18 @@ export default function Data() {
         </Box>
       </Flex>
       <Box mt={'4'} ></Box>
+
+      
+      <Flex justify={'center'} gap={'4'} my={'3'}>
+        <Box className="bg-slate-800 p-5 w-[40vw] rounded-lg" >
+          <CategoryTransaction/>
+        </Box>
+        <Box className="bg-slate-800 p-5 w-[40vw] rounded-lg">
+          <PerDaySales/>
+        </Box>
+      </Flex>
+
+
       <Grid gap={'4'} align={'center'} justify={'between'} columns="repeat(3,25vw)" >
         <Box className="bg-slate-800 w-[25vw] p-5 rounded-lg">
           <TransactionPie/>
@@ -73,17 +88,18 @@ export default function Data() {
         <Box className="bg-slate-800 w-[25vw] p-5 rounded-lg">
           <DonutChart/>
         </Box>
-        <Box className="bg-slate-800 w-[25vw] p-5 rounded-lg">
-          <DonutChart/>
-        </Box>
-        <Box className="bg-slate-800 w-[25vw] p-5 rounded-lg">
-          <DonutChart/>
-        </Box>
       </Grid>
+
+      <Flex justify={'center'} gap={'4'} my={'3'}>
+        <Box className="bg-slate-800 w-[30vw] p-5 rounded-lg" >
+          <ServiceChart/>
+        </Box>
+        <Box className="bg-slate-800 w-[45vw] p-5 rounded-lg">
+          <LineChartPS/>
+        </Box>
+      </Flex>
+
       
-      <Box className="bg-slate-800 p-5 h-[45vh] rounded-lg" my={'3'}>
-      <CategoryTransaction/>
-      </Box>
 
       <footer className="fixed bottom-0 right-0 m-4 z-10 w-[100%]">
         <ChatOption/>

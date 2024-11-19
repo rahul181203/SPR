@@ -25,24 +25,23 @@ export const options = {
       },
       title: {
         display: true,
-        text: 'Category vs Transaction',
+        text: 'Amount sold Per Day',
       },
     },
 };
 
 interface productsCount{
-  card_count: number,
-  cash_count: number,
-  category: string
+  date: string,
+  amount:number,
 }
 
-export default function CategoryTransaction() {
+export default function PerDaySales() {
 
   const [productsData,setProductsData] = useState<productsCount[]>([])
     const [loading,setLoading] = useState<boolean>(true)
 
     useEffect(()=>{
-      fetch("/api/analytics/trasactionCategory",{
+      fetch("/api/analytics/perdaysales",{
         method:"GET",
         headers:{
           "content-type":"application/json"
@@ -51,29 +50,18 @@ export default function CategoryTransaction() {
       .then((d)=>{setProductsData(d);setLoading(false)})
     },[])
 
-  const labels = productsData.map(item => item.category)
+  const labels = productsData.map(item => item.date)
   const data = {
     labels,
     datasets: [
       {
-        label: 'Card',
-        data: productsData.map(item=>item.card_count),
+        label: 'amount',
+        data: productsData.map(item=>item.amount),
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
         ],
         borderColor: [
           'rgba(255, 99, 132, 1)',
-        ],
-        borderWidth: 1,
-      },
-      {
-        label: 'Cash',
-        data: productsData.map(item=>item.cash_count),
-        backgroundColor: [
-          'rgba(54, 162, 235, 0.2)',
-        ],
-        borderColor: [
-          'rgba(54, 162, 235, 1)',
         ],
         borderWidth: 1,
       },

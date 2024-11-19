@@ -2,65 +2,49 @@ import Loading from '@/app/loading';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { useEffect, useState } from 'react';
 import { Pie } from 'react-chartjs-2';
-import { Doughnut } from 'react-chartjs-2';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-// export const options = {
-//     responsive: true,
-//     plugins: {
-//       legend: {
-//         position: 'top' as const,
-//       },
-//       title: {
-//         display: true,
-//         text: 'Transaction Category',
-//       },
-//     },
-// };
-
 export const options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'top' as const,
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top' as const,
+      },
+      title: {
+        display: true,
+        text: 'Services',
+      },
     },
-    title: {
-      display: true,
-      text: 'Overall Transaction',
-    },
-  },
 };
 
-interface TransactionTypeAnalytics{
-  _count: {
-      id: number
-  },
-  transaction_type: string
+interface productsCount{
+  name:string,
+  sum:number
 }
 
-export default function TransactionPie() {
+export default function ServiceChart() {
 
-  const [transactionData,settransactionData] = useState<TransactionTypeAnalytics[]>([])
+  const [productsData,setProductsData] = useState<productsCount[]>([])
     const [loading,setLoading] = useState<boolean>(true)
 
     useEffect(()=>{
-      fetch("/api/analytics",{
+      fetch("/api/analytics/services",{
         method:"GET",
         headers:{
           "content-type":"application/json"
         },next:{revalidate:60}
       }).then((res)=>res.json())
-      .then((d)=>{settransactionData(d.transactionAnalysis);setLoading(false)})
+      .then((d)=>{setProductsData(d);setLoading(false)})
     },[])
 
-  const labels = transactionData.map(item => item.transaction_type)
+  const labels = productsData.map(item => item.name)
   const data = {
     labels,
     datasets: [
       {
-        label: 'transactions',
-        data: transactionData.map(item=>item._count.id),
+        label: 'Services Used',
+        data: productsData.map(item=>item.sum),
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
           'rgba(54, 162, 235, 0.2)',
@@ -81,12 +65,10 @@ export default function TransactionPie() {
       },
     ],
   };
-  
   if(loading){
     return <>
       <Loading/>
     </>
   }
-
-  return <Doughnut options={options} data={data} />;
+  return <Pie options={options} data={data} />;
 }

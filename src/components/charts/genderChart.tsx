@@ -13,7 +13,7 @@ export const options = {
       },
       title: {
         display: true,
-        text: 'Gender Count on orders',
+        text: 'Gender based orders',
       },
     },
 };
