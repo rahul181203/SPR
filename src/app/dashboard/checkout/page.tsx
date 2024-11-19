@@ -15,11 +15,14 @@ import {
   TextField,
   Heading,
   Table,
+  Button,
+  TextArea,
 } from "@radix-ui/themes";
 import { CartDTO, UserDTO } from "@/interfaces";
 import { AvatarIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import Loading from "../loading";
+import { useRouter } from "next/navigation";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISH_KEY!);
 
@@ -31,8 +34,27 @@ export default function CheckOut() {
   const [selectedUser, setSelectedUser] = React.useState<UserDTO>();
   const [cartlist,setCartList] = React.useState<CartDTO>()
   const [cartLoader,setCartLoader] = React.useState<boolean>(true)
-
+  const [amountPaid,setAmountPaid] = React.useState<number>(0)
+  const router = useRouter()
+  const [pageloader, setPageLoader] = React.useState(false);
   const user = useAtomValue(userID)
+
+  const success=async()=>{
+    setPageLoader(true)
+    const userData = {"uid":selectedUser?.id,"opid":user,"transaction_type":"cash"}
+    const newData = {
+      ...cartlist,
+      items: cartlist?.items.map(({ product,service, ...rest }) => rest)
+    };
+    await fetch("/api/order",{
+      method:"POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body:JSON.stringify({...userData,...newData})
+    }).then((res)=>res.json())
+    .then(()=>{setPageLoader(false);router.push("/dashboard/payment-success")})
+  }
 
   if(typeof window !== "undefined"){
     window.addEventListener("click",function(e){
@@ -73,7 +95,7 @@ export default function CheckOut() {
     };
   }, [search]);
 
-  if(cartLoader){
+  if(cartLoader || pageloader){
     return (
       <>
         <Loading/>
@@ -208,6 +230,43 @@ export default function CheckOut() {
             </Flex>
           </RadioCards.Item>
         </RadioCards.Root>
+        {
+          (radio === "cash") && 
+          <>
+            <Flex direction={'column'} gap={'2'} m={'3'} align={'center'}>
+            <Flex align={'center'} gap={'3'}>
+              <Text>User Paid: </Text>
+            <TextField.Root size={'3'} placeholder="0" type="number" value={amountPaid} onChange={(e)=>setAmountPaid(Number.parseInt(e.target.value))}>
+              <TextField.Slot>
+                $
+              </TextField.Slot>
+            </TextField.Root>
+            </Flex>
+
+            <Flex align={'center'} gap={'3'}>
+              <Text>Total Amount: </Text>
+              <TextField.Root size={'3'} placeholder="Amount Paid" value={amount} disabled>
+              <TextField.Slot>
+                $
+              </TextField.Slot>
+            </TextField.Root>
+            </Flex>
+
+            <Flex align={'center'} gap={'3'}>
+              <Text>Change: </Text>
+              <TextField.Root size={'3'} type="number" value={amountPaid-amount} disabled>
+              <TextField.Slot>
+                $
+              </TextField.Slot>
+            </TextField.Root>
+            </Flex>
+
+          </Flex>
+            <Button onClick={success} className="my-3" color="green" disabled={(amountPaid-amount > 0?false:true)}>
+              Pay Cash
+            </Button>
+          </>
+        }
       </Box>
     </>
   );

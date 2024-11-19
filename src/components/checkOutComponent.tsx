@@ -90,7 +90,7 @@ const CheckoutPage = ({ amount,user }: { amount: number,user:UserDTO|undefined})
     const {paymentIntent} = await stripe.confirmCardPayment(clientSecret)
 
     if(paymentIntent?.status === "succeeded"){
-      
+      console.log(paymentIntent);
       success()
     }
 
@@ -102,7 +102,6 @@ const CheckoutPage = ({ amount,user }: { amount: number,user:UserDTO|undefined})
       // The payment UI automatically closes with a success animation.
       // Your customer is redirected to your `return_url`.
     }
-
     setLoading(false);
   };
 

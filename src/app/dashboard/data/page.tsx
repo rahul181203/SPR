@@ -1,13 +1,16 @@
 "use client"
-import { GoToCartButton } from "@/components/CartButton";
+// import { GoToCartButton } from "@/components/CartButton";
 import DonutChart from "@/components/charts/donutchart";
 import LineChart from "@/components/charts/linechart";
 import PieChart from "@/components/charts/piechart";
 import { ChatOption } from "@/components/chatOption";
-import { ReaderIcon } from "@radix-ui/react-icons";
+// import { ReaderIcon } from "@radix-ui/react-icons";
 import { Box, Heading, Text, Flex, Grid } from "@radix-ui/themes";
 import * as React from "react"
 import Loading from "../loading";
+import TransactionPie from "@/components/charts/transactionPie";
+import CategoryTransaction from "@/components/charts/categoryTrasactionChart";
+import GenderChart from "@/components/charts/genderChart";
 
 
 
@@ -62,10 +65,10 @@ export default function Data() {
       <Box mt={'4'} ></Box>
       <Grid gap={'4'} align={'center'} justify={'between'} columns="repeat(3,25vw)" >
         <Box className="bg-slate-800 w-[25vw] p-5 rounded-lg">
-          <DonutChart/>
+          <TransactionPie/>
         </Box>
         <Box className="bg-slate-800 w-[25vw] p-5 rounded-lg">
-          <DonutChart/>
+          <GenderChart/>
         </Box>
         <Box className="bg-slate-800 w-[25vw] p-5 rounded-lg">
           <DonutChart/>
@@ -77,6 +80,11 @@ export default function Data() {
           <DonutChart/>
         </Box>
       </Grid>
+      
+      <Box className="bg-slate-800 p-5 h-[45vh] rounded-lg" my={'3'}>
+      <CategoryTransaction/>
+      </Box>
+
       <footer className="fixed bottom-0 right-0 m-4 z-10 w-[100%]">
         <ChatOption/>
       </footer>

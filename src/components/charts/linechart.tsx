@@ -60,6 +60,7 @@ import Loading from '@/app/loading';
     
 
     const labels = trans.map(item => item.date)
+
     const data = {
       labels,
       datasets: [
@@ -77,6 +78,7 @@ import Loading from '@/app/loading';
         }
       ],
     };
+    
     if(loading){
       return <>
         <Loading/>

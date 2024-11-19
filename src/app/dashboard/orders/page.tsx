@@ -1,7 +1,8 @@
 
 import { getOrders } from "@/actions/orders"
 import SearchBar from "@/components/searchbar";
-import { Table, Heading } from "@radix-ui/themes"
+import { Table, Heading, Button } from "@radix-ui/themes"
+import Link from "next/link";
 import * as React from "react"
 
 export default async function Orders(){
@@ -26,6 +27,7 @@ export default async function Orders(){
                         {/* <Table.ColumnHeader justify={'center'} Cell>Discount</Table.ColumnHeaderCell> */}
                         {/* <Table.ColumnHeader justify={'center'} Cell>tax</Table.ColumnHeaderCell> */}
                         <Table.ColumnHeaderCell justify={'center'} >Total Bill</Table.ColumnHeaderCell>
+                        <Table.ColumnHeaderCell justify={'center'} >Invoice</Table.ColumnHeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -96,6 +98,12 @@ export default async function Orders(){
                                     {/* <Table.Cell justify={'center'}></Table.Cell> */}
                                     {/* <Table.Cell justify={'center'}>${o.tax}</Table.Cell> */}
                                     <Table.Cell justify={'center'}>${o.total_amount}</Table.Cell>
+                                    <Table.Cell justify={'center'}>
+                                        <Button className="my-3" color="green">
+                                            <Link href={`/dashboard/invoice?id=${o.id}`}>Invoice</Link> 
+                                        </Button>
+                                    </Table.Cell>
+                                    
                                 </Table.Row>
                             </>
                         })
