@@ -45,11 +45,14 @@ export default function Cart() {
       body:JSON.stringify({...{"opid":user},...list})
     }).then((val)=>val.json())
     .then((msg)=>{
-      setError(msg.msg.includes("Out of stock"));
-      if(msg.msg.includes("Out of stock")){
-        alert(msg.msg)
+      console.log(msg);
+      if(msg.msg){
+        setError(msg.msg.includes("Out of stock"));
+        if(msg.msg.includes("Out of stock")){
+          alert(msg.msg)
+        }
       }
-      if(!msg.msg.includes("Out of stock")){
+      if(msg.res){
         setList({items:[],totalPrice:0})
         router.push("/dashboard/checkout");
       }

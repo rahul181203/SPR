@@ -40,20 +40,20 @@ export default function Data() {
     <>
       <Flex align={'center'} justify={'between'}>
         <Box p={"4"} className="bg-slate-800 w-1/5 inline-block rounded-lg flex-col gap-2">
-          <Text>Total Sales</Text>
+          <Text>Total Sales (24hr)</Text>
           <Heading>${data.totalAmount!}</Heading>
         </Box>
         <Box p={"4"} className="bg-slate-800 w-1/5 inline-block rounded-lg flex-col gap-2">
-          <Text>New Customers</Text>
+          <Text>New Customers (24hr)</Text>
           <Heading>{data.newCustomers!}</Heading>
         </Box>
         <Box p={"4"} className="bg-slate-800 w-1/5 inline-block rounded-lg flex-col gap-2">
-          <Text>Previous Day Sales</Text>
-          <Heading>$32</Heading>
+          <Text>Total Sales Till Now</Text>
+          <Heading>${data.total_sales!}</Heading>
         </Box>
         <Box p={"4"} className="bg-slate-800 w-1/5 inline-block rounded-lg flex-col gap-2">
-          <Text>Most Sold Item</Text>
-          <Heading>{data.topSelling!}</Heading>
+          <Text>Most Sold Item (24hr)</Text>
+          <Heading>{(data.topSellinig) ? data.topSelling : "-"}</Heading>
         </Box>
       </Flex>
       <Box mt={'4'} ></Box>

@@ -34,6 +34,12 @@ export async function GET(){
         }
     })
 
+    const totalSales = await db.orders.aggregate({
+        _sum:{
+            total_amount:true
+        }
+    })
+
     const newCustomers = await db.user.aggregate({
         _count:{
             id:true
@@ -45,6 +51,11 @@ export async function GET(){
         }
     })
 
-    return Response.json({totalAmount:total_amount._sum.total_amount,newCustomers:newCustomers._count.id,topSelling:data[0]?.name})
+    return Response.json({
+        total_sales:totalSales._sum.total_amount,
+        totalAmount:total_amount._sum.total_amount,
+        newCustomers:newCustomers._count.id,
+        topSelling:data[0]?.name
+    })
 
 }
