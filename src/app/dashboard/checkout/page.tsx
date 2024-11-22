@@ -53,7 +53,7 @@ export default function CheckOut() {
       },
       body:JSON.stringify({...userData,...newData})
     }).then((res)=>res.json())
-    .then(()=>{setPageLoader(false);router.push("/dashboard/payment-success")})
+    .then(()=>{setPageLoader(false);router.push(`/dashboard/payment-success?amount=${amount}`)})
   }
 
   if(typeof window !== "undefined"){

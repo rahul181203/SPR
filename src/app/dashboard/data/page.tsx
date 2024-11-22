@@ -1,6 +1,5 @@
 "use client"
 // import { GoToCartButton } from "@/components/CartButton";
-import DonutChart from "@/components/charts/donutchart";
 import LineChart from "@/components/charts/linechart";
 import PieChart from "@/components/charts/piechart";
 import { ChatOption } from "@/components/chatOption";
@@ -14,6 +13,7 @@ import GenderChart from "@/components/charts/genderChart";
 import ServiceChart from "@/components/charts/serviceChart";
 import LineChartPS from "@/components/charts/linechartPS";
 import PerDaySales from "@/components/charts/priceperday";
+import GenderChartNewCustomers from "@/components/charts/donutchart";
 
 
 
@@ -53,7 +53,7 @@ export default function Data() {
         </Box>
         <Box p={"4"} className="bg-slate-800 w-1/5 inline-block rounded-lg flex-col gap-2">
           <Text>Most Sold Item (24hr)</Text>
-          <Heading>{(data.topSellinig) ? data.topSelling : "-"}</Heading>
+          <Heading>{(data.topSelling) ? data.topSelling! : "-"}</Heading>
         </Box>
       </Flex>
       <Box mt={'4'} ></Box>
@@ -80,13 +80,13 @@ export default function Data() {
 
       <Grid gap={'4'} align={'center'} justify={'between'} columns="repeat(3,25vw)" >
         <Box className="bg-slate-800 w-[25vw] p-5 rounded-lg">
-          <TransactionPie/>
-        </Box>
-        <Box className="bg-slate-800 w-[25vw] p-5 rounded-lg">
           <GenderChart/>
         </Box>
         <Box className="bg-slate-800 w-[25vw] p-5 rounded-lg">
-          <DonutChart/>
+          <TransactionPie/>
+        </Box>
+        <Box className="bg-slate-800 w-[25vw] p-5 rounded-lg">
+          <GenderChartNewCustomers/>
         </Box>
       </Grid>
 

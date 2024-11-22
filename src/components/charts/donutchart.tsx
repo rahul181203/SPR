@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
+import Loading from '@/app/loading';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -12,38 +13,55 @@ export const options = {
       },
       title: {
         display: true,
-        text: 'Test - Line Chart',
+        text: 'New Customer (Gender based)',
       },
     },
 };
 
-export const data = {
-  labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-  datasets: [
-    {
-      label: '# of Votes',
-      data: [12, 19, 3, 5, 2, 3],
-      backgroundColor: [
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(54, 162, 235, 0.2)',
-        'rgba(255, 206, 86, 0.2)',
-        'rgba(75, 192, 192, 0.2)',
-        'rgba(153, 102, 255, 0.2)',
-        'rgba(255, 159, 64, 0.2)',
-      ],
-      borderColor: [
-        'rgba(255, 99, 132, 1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(153, 102, 255, 1)',
-        'rgba(255, 159, 64, 1)',
-      ],
-      borderWidth: 1,
-    },
-  ],
-};
 
-export default function DonutChart() {
+
+export default function GenderChartNewCustomers() {
+    
+    const [productsData,setProductsData] = useState({})
+    const [loading,setLoading] = useState<boolean>(true)
+
+    useEffect(()=>{
+        fetch("/api/analytics/newcustomersGender",{
+          method:"GET",
+          headers:{
+            "content-type":"application/json"
+          },next:{revalidate:60}
+        }).then((res)=>res.json())
+        .then((d)=>{setProductsData(d);setLoading(false)})
+      },[])
+
+      const numbers: number[] = Object.values(productsData);
+
+    const data = {
+        labels: ['Female', 'Male'],
+        datasets: [
+          {
+            label: 'no.of Customers',
+            data: numbers,
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+            ],
+            borderColor: [
+              'rgba(255, 99, 132, 1)',
+              'rgba(54, 162, 235, 1)'
+            ],
+            borderWidth: 1,
+          },
+        ],
+      };
+
+      if(loading){
+        return <>
+          <Loading/>
+        </>
+      }
+    
+
   return <Doughnut options={options} data={data} />;
 }
