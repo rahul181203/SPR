@@ -262,7 +262,7 @@ export default function CheckOut() {
             </Flex>
 
           </Flex>
-            <Button onClick={success} className="my-3" color="green" disabled={(amountPaid-amount > 0?false:true)}>
+            <Button onClick={success} className="my-3" color="green" disabled={(amountPaid-amount >= 0?false:true)}>
               Pay Cash
             </Button>
           </>

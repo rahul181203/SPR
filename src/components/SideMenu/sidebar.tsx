@@ -13,8 +13,8 @@ export default function SideBar(){
                 <Link className="flex items-center gap-2"  href={'/dashboard/products'}> <ArchiveIcon width={'30'} height={'30'} className=" inline-block  p-1 text-white"/> Products</Link>
                 <Link className="flex items-center gap-2"  href={'/dashboard/services'}> <GearIcon width={'30'} height={'30'} className=" inline-block  p-1 text-white"/> Services</Link>
                 <Link className="flex items-center gap-2"  href={'/dashboard/orders'}> <CubeIcon width={'30'} height={'30'} className=" inline-block  p-1 text-white"/> Orders</Link>
-                <Link className="flex items-center gap-2"  href={'/dashboard/referals'}> <UpdateIcon width={'30'} height={'30'} className=" inline-block  p-1 text-white"/> Referals</Link>
-                <Link className="flex items-center gap-2"  href={'/dashboard/transactions'}> <CardStackIcon width={'30'} height={'30'} className=" inline-block  p-1 text-white"/> Transactions</Link>
+                {/* <Link className="flex items-center gap-2"  href={'/dashboard/referals'}> <UpdateIcon width={'30'} height={'30'} className=" inline-block  p-1 text-white"/> Referals</Link>
+                <Link className="flex items-center gap-2"  href={'/dashboard/transactions'}> <CardStackIcon width={'30'} height={'30'} className=" inline-block  p-1 text-white"/> Transactions</Link> */}
                 <form action={async ()=>{
                         "use server"
                         await signOut({redirectTo:'/'});

@@ -35,6 +35,8 @@ export async function POST(req:Request){
         console.log(cart);
     }
 
+    let notAvailbale:any = [];
+
      const createCart = data.items
         .map(async(item) => {
             let product,stockAvailable;
@@ -53,7 +55,9 @@ export async function POST(req:Request){
                     stockAvailable = true
                 }else{
                     stockAvailable = false;
-                    throw new Error("Item Not Available in stock")
+                    notAvailbale.push(product.name!)
+                    // throw new Error("Item Not Available in stock")
+                    // return Response.json({msg:"Item not available in stock"})
                 }
             }
             if(item.service_id){
@@ -82,6 +86,9 @@ export async function POST(req:Request){
     
         const res = await Promise.all(createCart)
         console.log(res);
+    if(notAvailbale.length > 0){
+        return Response.json({msg:`${notAvailbale} Out of stock`})
+    }
     return Response.json({res})
 }
 
